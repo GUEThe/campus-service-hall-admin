@@ -1,64 +1,39 @@
 <template>
   <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      auto-complete="on"
-      label-position="left"
-    >
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <div class="title-container">
-        <h3 class="title">
-          {{ $t('login.title') }}
-        </h3>
+        <h3 class="title">王府井大街的蚂蚁开口</h3>
         <lang-select class="set-language" />
       </div>
+
+      <el-form-item prop="category">
+        <span class="svg-container">
+          <svg-icon name="people" />
+        </span>
+        <el-select v-model="loginForm.category" placeholder="请选择身份" class="login-form_select">
+          <el-option label="管理员" :value="1" />
+          <el-option label="学生" :value="2" />
+        </el-select>
+      </el-form-item>
 
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon name="user" />
         </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          :placeholder="$t('login.username')"
-          name="username"
-          type="text"
-          auto-complete="on"
-        />
+        <el-input ref="username" v-model="loginForm.username" :placeholder="$t('login.username')" name="username" type="text" auto-complete="on" />
       </el-form-item>
 
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon name="password" />
         </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          :placeholder="$t('login.password')"
-          name="password"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span
-          class="show-pwd"
-          @click="showPwd"
-        >
+        <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType" :placeholder="$t('login.password')" name="password" auto-complete="on" @keyup.enter.native="handleLogin" />
+        <span class="show-pwd" @click="showPwd">
           <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
         </span>
       </el-form-item>
 
-      <el-button
-        :loading="loading"
-        type="primary"
-        style="width:100%; margin-bottom:30px;"
-        @click.native.prevent="handleLogin"
-      >
-        {{ $t('login.logIn') }}
-      </el-button>
+      <el-button :loading="loading" type="primary" style="width:100%; margin-bottom:30px;" @click.native.prevent="handleLogin">{{ $t('login.logIn') }}</el-button>
 
       <div style="position:relative">
         <div class="tips">
@@ -66,26 +41,15 @@
           <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
         </div>
         <div class="tips">
-          <span style="margin-right:18px;">
-            {{ $t('login.username') }} : editor
-          </span>
+          <span style="margin-right:18px;">{{ $t('login.username') }} : editor</span>
           <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
         </div>
 
-        <el-button
-          class="thirdparty-button"
-          type="primary"
-          @click="showDialog=true"
-        >
-          {{ $t('login.thirdparty') }}
-        </el-button>
+        <el-button class="thirdparty-button" type="primary" @click="showDialog = true">{{ $t('login.thirdparty') }}</el-button>
       </div>
     </el-form>
 
-    <el-dialog
-      :title="$t('login.thirdparty')"
-      :visible.sync="showDialog"
-    >
+    <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
       {{ $t('login.thirdpartyTips') }}
       <br>
       <br>
@@ -96,102 +60,118 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
-import { Route } from 'vue-router'
-import { Form as ElForm, Input } from 'element-ui'
-import { UserModule } from '@/store/modules/user'
-import { isValidUsername } from '@/utils/validate'
-import LangSelect from '@/components/LangSelect/index.vue'
-import SocialSign from './socialSignin.vue'
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Route } from 'vue-router';
+import { Form as ElForm, Input } from 'element-ui';
+import { UserModule } from '@/store/modules/user';
+import { isValidUsername } from '@/utils/validate';
+import LangSelect from '@/components/LangSelect/index.vue';
+import * as models from '@/api/models';
 
 const validateUsername = (rule: any, value: string, callback: any) => {
   if (!isValidUsername(value)) {
-    callback(new Error('Please enter the correct user name'))
+    callback(new Error('Please enter the correct user name'));
   } else {
-    callback()
+    callback();
   }
-}
+};
 
 const validatePassword = (rule: any, value: string, callback: any) => {
   if (value.length < 6) {
-    callback(new Error('The password can not be less than 6 digits'))
+    callback(new Error('The password can not be less than 6 digits'));
   } else {
-    callback()
+    callback();
   }
-}
+};
 
 @Component({
   components: {
-    LangSelect, SocialSign
+    LangSelect
   }
 })
 export default class Login extends Vue {
-  private loginForm = {
+  private loginForm: models.SigninForm = {
     username: 'admin',
-    password: '111111'
-  }
+    password: '123456',
+    category: 1
+  };
   private loginRules = {
-    username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+    username: [
+      { required: true, trigger: 'blur', validator: validateUsername }
+    ],
     password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-  }
-  private passwordType = 'password'
-  private loading = false
-  private showDialog = false
-  private redirect?: string = undefined
+  };
+  private passwordType = 'password';
+  private loading = false;
+  private showDialog = false;
+  private redirect?: string = undefined;
 
   @Watch('$route', { immediate: true })
   private OnRouteChange(route: Route) {
     // TODO: remove the "as string" hack after v4 release for vue-router
     // See https://github.com/vuejs/vue-router/pull/2050 for details
-    this.redirect = route.query && route.query.redirect as string
+    this.redirect = route.query && (route.query.redirect as string);
   }
 
   mounted() {
     if (this.loginForm.username === '') {
-      (this.$refs.username as Input).focus()
+      (this.$refs.username as Input).focus();
     } else if (this.loginForm.password === '') {
-      (this.$refs.password as Input).focus()
+      (this.$refs.password as Input).focus();
     }
   }
 
   private showPwd() {
     if (this.passwordType === 'password') {
-      this.passwordType = ''
+      this.passwordType = '';
     } else {
-      this.passwordType = 'password'
+      this.passwordType = 'password';
     }
     this.$nextTick(() => {
-      (this.$refs.password as Input).focus()
-    })
+      (this.$refs.password as Input).focus();
+    });
   }
 
   private handleLogin() {
     (this.$refs.loginForm as ElForm).validate((valid: boolean) => {
       if (valid) {
-        this.loading = true
-        UserModule.Login(this.loginForm).then(() => {
-          this.loading = false
-          this.$router.push({ path: this.redirect || '/' })
-        }).catch(() => {
-          this.loading = false
-        })
+        this.loading = true;
+        UserModule.Login(this.loginForm)
+          .then(() => {
+            this.loading = false;
+            this.$router.push({ path: this.redirect || '/' });
+          })
+          .catch(() => {
+            this.loading = true;
+          });
       } else {
-        return false
+        return false;
       }
-    })
+    });
   }
 }
 </script>
 
 <style lang="scss">
-@import "src/styles/variables.scss";
+@import 'src/styles/variables.scss';
 
 // References: https://www.zhangxinxu.com/wordpress/2018/01/css-caret-color-first-line/
 @supports (-webkit-mask: none) and (not (cater-color: $loginCursorColor)) {
   .login-container .el-input {
-    input { color: $loginCursorColor; }
-    input::first-line { color: $lightGray; }
+    input {
+      color: $loginCursorColor;
+    }
+    input::first-line {
+      color: $lightGray;
+    }
   }
+}
+
+.login-form_select .el-input__inner {
+  width: 418px;
+}
+.login-form_select .el-input {
+  width: 100% !important;
 }
 
 .login-container {
@@ -227,7 +207,7 @@ export default class Login extends Vue {
 </style>
 
 <style lang="scss" scoped>
-@import "src/styles/variables.scss";
+@import 'src/styles/variables.scss';
 
 .login-container {
   height: 100%;

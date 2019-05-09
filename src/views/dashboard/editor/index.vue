@@ -1,16 +1,9 @@
 <template>
   <div class="dashboard-editor-container">
     <div class=" clearfix">
-      <pan-thumb
-        :image="avatar"
-        style="float: left"
-      >
+      <pan-thumb image="https://avatars2.githubusercontent.com/u/40852123?s=40&v=4" style="float: left">
         Your roles:
-        <span
-          v-for="item in roles"
-          :key="item"
-          class="info-roles"
-        >{{ item }}</span>
+        <span v-for="item in roles" :key="item" class="info-roles">{{ item }}</span>
       </pan-thumb>
       <github-corner style="position: absolute; top: 0px; border: 0; right: 0;" />
       <div class="info-container">
@@ -19,10 +12,7 @@
       </div>
     </div>
     <div>
-      <img
-        :src="emptyGif"
-        class="emptyGif"
-      >
+      <img :src="emptyGif" class="emptyGif">
     </div>
   </div>
 </template>
@@ -44,10 +34,6 @@ export default class DashboardEditor extends Vue {
 
   get name() {
     return UserModule.name
-  }
-
-  get avatar() {
-    return UserModule.avatar
   }
 
   get roles() {

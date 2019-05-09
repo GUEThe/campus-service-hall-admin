@@ -23,13 +23,14 @@ const defaultAxiosOptions: AxiosRequestConfig = {
 const apiAxios = axios.create(defaultAxiosOptions)
 apiAxios.interceptors.request.use(
   config => {
-    if (UserModule.getToken) {
-      config.headers.Authorization = 'Bearer ' + UserModule.getToken
+    if (UserModule.token) {
+      config.headers.Authorization = 'Bearer ' + UserModule.token
     }
     config.headers['X-Client'] = 'Web'
     return config
   },
   error => {
+    console.log(error)
     // Handle request error here
     // Promise.reject(error);
   }
@@ -41,11 +42,11 @@ apiAxios.interceptors.response.use(
     const { data } = response
     const msg = `code=${data.code}, ${data.message}`
     if (data.code === 401) {
-      UserModule.LogOut()
+      UserModule.Logout()
       // alert('请重新登录');
       router.push({ name: 'login' })
     }
-    if (data.code !== 0) {
+    if (data.code !== 200 && data.code !== 0) {
       Message({
         message: msg,
         type: 'error',
@@ -53,7 +54,6 @@ apiAxios.interceptors.response.use(
       })
       throw new Error(msg)
     }
-
     return response
   },
   error => {
@@ -68,7 +68,7 @@ apiAxios.interceptors.response.use(
           })
           break
         case 401:
-          UserModule.LogOut()
+          UserModule.Logout()
           alert('请重新登录')
           router.push({ name: 'login' })
           break

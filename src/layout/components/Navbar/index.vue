@@ -1,38 +1,20 @@
 <template>
   <div class="navbar">
-    <hamburger
-      id="hamburger-container"
-      :is-active="sidebar.opened"
-      class="hamburger-container"
-      @toggleClick="toggleSideBar"
-    />
-    <breadcrumb
-      id="breadcrumb-container"
-      class="breadcrumb-container"
-    />
+    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
     <div class="right-menu">
       <template v-if="device!=='mobile'">
         <header-search class="right-menu-item" />
         <error-log class="errLog-container right-menu-item hover-effect" />
         <screenfull class="right-menu-item hover-effect" />
-        <el-tooltip
-          :content="$t('navbar.size')"
-          effect="dark"
-          placement="bottom"
-        >
+        <el-tooltip :content="$t('navbar.size')" effect="dark" placement="bottom">
           <size-select class="right-menu-item hover-effect" />
         </el-tooltip>
         <lang-select class="right-menu-item hover-effect" />
       </template>
-      <el-dropdown
-        class="avatar-container right-menu-item hover-effect"
-        trigger="click"
-      >
+      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img
-            :src="avatar+'?imageView2/1/w/80/h/80'"
-            class="user-avatar"
-          >
+          <img src="https://avatars2.githubusercontent.com/u/40852123?s=40&v=4" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -41,25 +23,16 @@
               {{ $t('navbar.dashboard') }}
             </el-dropdown-item>
           </router-link>
-          <a
-            target="_blank"
-            href="https://github.com/armour/vue-typescript-admin-template/"
-          >
+          <a target="_blank" href="https://github.com/armour/vue-typescript-admin-template/">
             <el-dropdown-item>
               {{ $t('navbar.github') }}
             </el-dropdown-item>
           </a>
-          <a
-            target="_blank"
-            href="https://panjiachen.github.io/vue-element-admin-site/#/"
-          >
+          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
             <el-dropdown-item>Docs</el-dropdown-item>
           </a>
           <el-dropdown-item divided>
-            <span
-              style="display:block;"
-              @click="logout"
-            >{{ $t('navbar.logOut') }}</span>
+            <span style="display:block;" @click="Logout">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -99,16 +72,12 @@ export default class Navbar extends Vue {
     return AppModule.device.toString()
   }
 
-  get avatar() {
-    return UserModule.avatar
-  }
-
   private toggleSideBar() {
     AppModule.ToggleSideBar(false)
   }
 
-  private logout() {
-    UserModule.LogOut().then(() => {
+  private Logout() {
+    UserModule.Logout().then(() => {
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     })
   }
@@ -121,7 +90,7 @@ export default class Navbar extends Vue {
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
     line-height: 46px;
@@ -129,11 +98,11 @@ export default class Navbar extends Vue {
     float: left;
     padding: 0 15px;
     cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    transition: background 0.3s;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: rgba(0, 0, 0, 0.025);
     }
   }
 
@@ -165,10 +134,10 @@ export default class Navbar extends Vue {
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        transition: background 0.3s;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(0, 0, 0, 0.025);
         }
       }
     }

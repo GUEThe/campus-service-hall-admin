@@ -142,7 +142,7 @@ export const asyncRoutes: RouteConfig[] = [
         meta: { title: 'icons', icon: 'icon', noCache: true }
       }
     ],
-    meta:{roles: ['admin']}
+    meta: { roles: ['admin'] }
   },
   /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,
