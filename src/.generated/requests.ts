@@ -1,5 +1,5 @@
 /**
- * yxAPI
+ * campusServiceHallAPI
  *
  *
  * version v1
@@ -22,7 +22,7 @@ export const baseUrl = `${protocol}://${apiHost}`;
 export const wssBaseUrl = `wss://${apiHost}${basePath}/ws`;
 
 /*
-    export interface m.DataResponse&lt;m.TokenObj&gt; extends m.CommonResp{
+    export interface m.DataResponse&lt;m.TokenObj&gt; extends m.RestfulData{
       data?: m.TokenObj;
     }
 */
@@ -44,94 +44,132 @@ export function Sigin(options: {
   return apiSendAsync<m.DataResponse<m.TokenObj>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.Student&gt; extends m.CommonResp{
-      data?: m.Student;
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
     }
 */
 
 /**
  *
- * @param student m.Student
  */
-export function Post(options: {
-  student?: m.Student;
-}): Promise<m.DataResponse<m.Student>> {
+export function Logout(): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Student`,
+    url: `/api/Auth/logout`,
     method: "post",
-    reqName: "Post"
+    reqName: "Logout"
   };
 
-  opts.data = options.student;
-  return apiSendAsync<m.DataResponse<m.Student>>(opts);
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;undefined&gt; extends m.CommonResp{
-      data?: ;
+    export interface m.DataResponse&lt;m.UserInfo&gt; extends m.RestfulData{
+      data?: m.UserInfo;
     }
 */
 
 /**
  *
  */
-export function Get(): Promise<m.DataResponse<undefined>> {
+export function GetUserInfo(): Promise<m.DataResponse<m.UserInfo>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Values`,
+    url: `/api/Auth/user`,
     method: "get",
-    reqName: "Get"
+    reqName: "GetUserInfo"
   };
 
-  return apiSendAsync<m.DataResponse<undefined>>(opts);
+  return apiSendAsync<m.DataResponse<m.UserInfo>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;undefined&gt; extends m.CommonResp{
-      data?: ;
+    export interface m.PageResponse&lt;m.Department[]&gt; extends m.RestfulData{
+      data?: m.Department[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 单位列表
+ */
+export function GetDepartmentList(): Promise<m.PageResponse<m.Department[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Department`,
+    method: "get",
+    reqName: "GetDepartmentList"
+  };
+
+  return apiSendAsync<m.PageResponse<m.Department[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
     }
 */
 
 /**
  *
- * @param value string
+ * @param value m.Department
  */
-export function Post(options: {
-  value?: string;
-}): Promise<m.DataResponse<undefined>> {
+export function PostDepartment(options: {
+  value?: m.Department;
+}): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Values`,
+    url: `/api/Department`,
     method: "post",
-    reqName: "Post"
+    reqName: "PostDepartment"
   };
 
   opts.data = options.value;
-  return apiSendAsync<m.DataResponse<undefined>>(opts);
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;undefined&gt; extends m.CommonResp{
-      data?: ;
+    export interface m.DataResponse&lt;m.Department&gt; extends m.RestfulData{
+      data?: m.Department;
     }
 */
 
 /**
  *
  * @param id number integer
- * @param value string
  */
-export function Put(options: {
+export function GetDepartment(options: {
   id: number;
-  value?: string;
-}): Promise<m.DataResponse<undefined>> {
+}): Promise<m.DataResponse<m.Department>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Values/${options.id}`,
+    url: `/api/Department/${options.id}`,
+    method: "get",
+    reqName: "GetDepartment"
+  };
+
+  return apiSendAsync<m.DataResponse<m.Department>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ * @param value m.Department
+ */
+export function PutDepartment(options: {
+  id: number;
+  value?: m.Department;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Department/${options.id}`,
     method: "put",
-    reqName: "Put"
+    reqName: "PutDepartment"
   };
 
   opts.data = options.value;
-  return apiSendAsync<m.DataResponse<undefined>>(opts);
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;undefined&gt; extends m.CommonResp{
-      data?: ;
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
     }
 */
 
@@ -139,14 +177,931 @@ export function Put(options: {
  *
  * @param id number integer
  */
-export function Delete(options: {
+export function DeleteDepartment(options: {
   id: number;
-}): Promise<m.DataResponse<undefined>> {
+}): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Values/${options.id}`,
+    url: `/api/Department/${options.id}`,
     method: "delete",
-    reqName: "Delete"
+    reqName: "DeleteDepartment"
   };
 
-  return apiSendAsync<m.DataResponse<undefined>>(opts);
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Process[]&gt; extends m.RestfulData{
+      data?: m.Process[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 服务流程列表
+ * @param serviceId number integer 服务ID
+ */
+export function GetProcessList(options: {
+  serviceId?: number;
+}): Promise<m.PageResponse<m.Process[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Process`,
+    method: "get",
+    reqName: "GetProcessList"
+  };
+
+  opts.params = {
+    serviceId: options.serviceId
+  };
+
+  return apiSendAsync<m.PageResponse<m.Process[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param value m.Process
+ */
+export function PostProcess(options: {
+  value?: m.Process;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Process`,
+    method: "post",
+    reqName: "PostProcess"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.UserProcess[]&gt; extends m.RestfulData{
+      data?: m.UserProcess[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 服务流程列表
+ * @param page number integer
+ * @param pageSize number integer
+ */
+export function GetDepartmentProcessList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.UserProcess[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Process/Department`,
+    method: "get",
+    reqName: "GetDepartmentProcessList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
+  };
+
+  return apiSendAsync<m.PageResponse<m.UserProcess[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.Process&gt; extends m.RestfulData{
+      data?: m.Process;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function GetProcess(options: {
+  id: number;
+}): Promise<m.DataResponse<m.Process>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Process/${options.id}`,
+    method: "get",
+    reqName: "GetProcess"
+  };
+
+  return apiSendAsync<m.DataResponse<m.Process>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param value m.Process
+ * @param id string string
+ */
+export function PutProcess(options: {
+  value?: m.Process;
+  id: string;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Process/${options.id}`,
+    method: "put",
+    reqName: "PutProcess"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function DeleteProcess(options: {
+  id: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Process/${options.id}`,
+    method: "delete",
+    reqName: "DeleteProcess"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Question[]&gt; extends m.RestfulData{
+      data?: m.Question[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 咨询问题列表
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ */
+export function GetQuestionList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.Question[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Question`,
+    method: "get",
+    reqName: "GetQuestionList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
+  };
+
+  return apiSendAsync<m.PageResponse<m.Question[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param value m.Question
+ */
+export function PostQuestion(options: {
+  value?: m.Question;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Question`,
+    method: "post",
+    reqName: "PostQuestion"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.QuestionView[]&gt; extends m.RestfulData{
+      data?: m.QuestionView[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 单位咨询问题列表
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ * @param status number integer 问题回复状态，1代表已回复，0代表未回复
+ */
+export function GetDepartmentQuestionList(options: {
+  page?: number;
+  pageSize?: number;
+  status?: number;
+}): Promise<m.PageResponse<m.QuestionView[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Question/Department`,
+    method: "get",
+    reqName: "GetDepartmentQuestionList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    status: options.status
+  };
+
+  return apiSendAsync<m.PageResponse<m.QuestionView[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.QuestionView[]&gt; extends m.RestfulData{
+      data?: m.QuestionView[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 办事事项咨询问题列表
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ * @param ServiceId number integer 事项ID
+ * @param status number integer 问题回复状态，1代表已回复，0代表未回复
+ */
+export function GetServiceQuestionList(options: {
+  page?: number;
+  pageSize?: number;
+  ServiceId?: number;
+  status?: number;
+}): Promise<m.PageResponse<m.QuestionView[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Question/Service`,
+    method: "get",
+    reqName: "GetServiceQuestionList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    ServiceId: options.ServiceId,
+    status: options.status
+  };
+
+  return apiSendAsync<m.PageResponse<m.QuestionView[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ * @param value m.Question
+ */
+export function PutQuestion(options: {
+  id: number;
+  value?: m.Question;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Question/${options.id}`,
+    method: "put",
+    reqName: "PutQuestion"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function DeleteQuestion(options: {
+  id: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Question/${options.id}`,
+    method: "delete",
+    reqName: "DeleteQuestion"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Service[]&gt; extends m.RestfulData{
+      data?: m.Service[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 办事列表
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ */
+export function GetServiceList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.Service[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Service`,
+    method: "get",
+    reqName: "GetServiceList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
+  };
+
+  return apiSendAsync<m.PageResponse<m.Service[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param value m.Service
+ */
+export function PostService(options: {
+  value?: m.Service;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Service`,
+    method: "post",
+    reqName: "PostService"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Service[]&gt; extends m.RestfulData{
+      data?: m.Service[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 搜索办事列表
+ * @param keyword string string title关键字
+ */
+export function GetSearchServiceList(options: {
+  keyword?: string;
+}): Promise<m.PageResponse<m.Service[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Service/Search`,
+    method: "get",
+    reqName: "GetSearchServiceList"
+  };
+
+  opts.params = {
+    keyword: options.keyword
+  };
+
+  return apiSendAsync<m.PageResponse<m.Service[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.Service[]&gt; extends m.RestfulData{
+      data?: m.Service[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 单位办事列表
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ */
+export function GetDepartmentServiceList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.Service[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Service/Department`,
+    method: "get",
+    reqName: "GetDepartmentServiceList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
+  };
+
+  return apiSendAsync<m.PageResponse<m.Service[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.Service&gt; extends m.RestfulData{
+      data?: m.Service;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function GetService(options: {
+  id: number;
+}): Promise<m.DataResponse<m.Service>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Service/${options.id}`,
+    method: "get",
+    reqName: "GetService"
+  };
+
+  return apiSendAsync<m.DataResponse<m.Service>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param value m.Service
+ * @param id string string
+ */
+export function PutService(options: {
+  value?: m.Service;
+  id: string;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Service/${options.id}`,
+    method: "put",
+    reqName: "PutService"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function DeleteService(options: {
+  id: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Service/${options.id}`,
+    method: "delete",
+    reqName: "DeleteService"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 下载文件
+ * @param fileKey number integer
+ */
+export function GetFile(options: {
+  fileKey: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/ServiceFile/${options.fileKey}`,
+    method: "get",
+    reqName: "GetFile"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.User&gt; extends m.RestfulData{
+      data?: m.User;
+    }
+*/
+
+/**
+ *
+ * @param page number integer
+ * @param pageSize number integer
+ */
+export function GetUserList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.DataResponse<m.User>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/User`,
+    method: "get",
+    reqName: "GetUserList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
+  };
+
+  return apiSendAsync<m.DataResponse<m.User>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param value m.User
+ */
+export function PostUser(options: {
+  value?: m.User;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/User`,
+    method: "post",
+    reqName: "PostUser"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.User&gt; extends m.RestfulData{
+      data?: m.User;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function GetUser(options: {
+  id: number;
+}): Promise<m.DataResponse<m.User>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/User/${options.id}`,
+    method: "get",
+    reqName: "GetUser"
+  };
+
+  return apiSendAsync<m.DataResponse<m.User>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param value m.User
+ * @param id string string
+ */
+export function PutUser(options: {
+  value?: m.User;
+  id: string;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/User/${options.id}`,
+    method: "put",
+    reqName: "PutUser"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function DeleteUser(options: {
+  id: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/User/${options.id}`,
+    method: "delete",
+    reqName: "DeleteUser"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.UserProcess[]&gt; extends m.RestfulData{
+      data?: m.UserProcess[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 服务流程列表
+ * @param userServiceId number integer
+ */
+export function GetUserProcessList(options: {
+  userServiceId?: number;
+}): Promise<m.PageResponse<m.UserProcess[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserProcess`,
+    method: "get",
+    reqName: "GetUserProcessList"
+  };
+
+  opts.params = {
+    userServiceId: options.userServiceId
+  };
+
+  return apiSendAsync<m.PageResponse<m.UserProcess[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ * @param value m.UserProcess
+ */
+export function PutUserProcess(options: {
+  id: number;
+  value?: m.UserProcess;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserProcess/${options.id}`,
+    method: "put",
+    reqName: "PutUserProcess"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.UserService[]&gt; extends m.RestfulData{
+      data?: m.UserService[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 用户服务申请列表
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ */
+export function GetUserServiceList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.UserService[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserService`,
+    method: "get",
+    reqName: "GetUserServiceList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
+  };
+
+  return apiSendAsync<m.PageResponse<m.UserService[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param value m.UserService
+ */
+export function PostUserService(options: {
+  value?: m.UserService;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserService`,
+    method: "post",
+    reqName: "PostUserService"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.UserService[]&gt; extends m.RestfulData{
+      data?: m.UserService[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 我的办事列表
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ */
+export function GetMyServiceList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.UserService[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserService/my`,
+    method: "get",
+    reqName: "GetMyServiceList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
+  };
+
+  return apiSendAsync<m.PageResponse<m.UserService[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.UserService[]&gt; extends m.RestfulData{
+      data?: m.UserService[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 单位办事列表
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ */
+export function GetDepartmentUserServiceList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.UserService[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserService/Department`,
+    method: "get",
+    reqName: "GetDepartmentUserServiceList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
+  };
+
+  return apiSendAsync<m.PageResponse<m.UserService[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.UserService[]&gt; extends m.RestfulData{
+      data?: m.UserService[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ * 单位办事连接查询列表
+ * @param page number integer
+ * @param pageSize number integer
+ */
+export function GetUserServiceDetailsList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.UserService[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserService/ViewData`,
+    method: "get",
+    reqName: "GetUserServiceDetailsList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
+  };
+
+  return apiSendAsync<m.PageResponse<m.UserService[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.UserService&gt; extends m.RestfulData{
+      data?: m.UserService;
+    }
+*/
+
+/**
+ * 单位办事连接查询列表
+ * @param id number integer
+ */
+export function GetUserService(options: {
+  id: number;
+}): Promise<m.DataResponse<m.UserService>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserService/${options.id}`,
+    method: "get",
+    reqName: "GetUserService"
+  };
+
+  return apiSendAsync<m.DataResponse<m.UserService>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param value m.UserService
+ * @param id string string
+ */
+export function PutUserService(options: {
+  value?: m.UserService;
+  id: string;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserService/${options.id}`,
+    method: "put",
+    reqName: "PutUserService"
+  };
+
+  opts.data = options.value;
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function DeleteUserServic(options: {
+  id: number;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserService/${options.id}`,
+    method: "delete",
+    reqName: "DeleteUserServic"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }

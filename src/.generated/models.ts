@@ -64,7 +64,24 @@ export interface RestfulData {
 /*
  * @namespace models
  */
-export interface Student {
+export interface UserInfo {
+  /**
+   *
+   *
+   * @serverType array
+   */
+  roles: string[];
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+}
+/*
+ * @namespace models
+ */
+export interface Department {
   /**
    *  int32
    *
@@ -78,49 +95,450 @@ export interface Student {
    */
   name: string;
   /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  gender: number;
-  /**
    *
    *
    * @serverType string
    */
-  examineeNo: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  idCardNo: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  collegeCode: string;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  majorCode: string;
+  description: string;
   /**
    *  int32
    *
    * @serverType integer
    */
-  year: number;
+  parentId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  order: number;
+}
+/*
+ * @namespace models
+ */
+export interface Process {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  serviceId: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  description: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  fileTemplate: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  order: number;
   /**
    *  int32
    *
    * @serverType integer
    */
   type: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  creator: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  time: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  departmentId: number;
 }
-export interface DataResponse<T> extends CommonResp {
+/*
+ * @namespace models
+ */
+export interface UserProcess {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  userId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  userServiceId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  processId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  status: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  operator: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  time: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  uploadFile: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  departmentId: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  feedback: string;
+}
+/*
+ * @namespace models
+ */
+export interface Question {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  userId: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  title: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  serviceId: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  content: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  phone: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  mail: string;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  time: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  replyContent: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  replyUserId: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  relpyTime: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  status: number;
+}
+/*
+ * @namespace models
+ */
+export interface QuestionView {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType
+   */
+  userQuestion: Question;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  title: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  department: number;
+}
+/*
+ * @namespace models
+ */
+export interface Service {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  title: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  description: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  creator: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  icon: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  department: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  createAt: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  tags: string;
+}
+/*
+ * @namespace models
+ */
+export interface User {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  username: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  password: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  identify: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  mail: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  phone: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  role: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  departmentId: number;
+}
+/*
+ * @namespace models
+ */
+export interface UserService {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  userId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  serviceId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  status: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  comment: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  time: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  handler: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  handleTime: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  currentProcess: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  currentDepartment: number;
+}
+export interface DataResponse<T> extends RestfulData {
   data?: T;
 }
 
