@@ -6,9 +6,9 @@ import Layout from '@/layout/index.vue'
 
 /* Router modules */
 // import componentsRouter from './modules/components'
-import chartsRouter from './modules/charts'
+// import chartsRouter from './modules/charts'
 // import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
+// import nestedRouter from './modules/nested'
 
 Vue.use(Router)
 
@@ -83,31 +83,6 @@ export const constantRoutes: RouteConfig[] = [
         meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
       }
     ]
-  },
-  // {
-  //   path: '/documentation',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import(/* webpackChunkName: "documentation" */ '@/views/documentation/index.vue'),
-  //       name: 'Documentation',
-  //       meta: { title: 'documentation', icon: 'documentation', affix: true }
-  //     }
-  //   ]
-  // },
-  {
-    path: '/guide',
-    component: Layout,
-    redirect: '/guide/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import(/* webpackChunkName: "guide" */ '@/views/guide/index.vue'),
-        name: 'Guide',
-        meta: { title: 'guide', icon: 'guide', noCache: true }
-      }
-    ]
   }
 ]
 
@@ -166,25 +141,24 @@ export const asyncRoutes: RouteConfig[] = [
         name: 'Icons',
         meta: { title: 'icons', icon: 'icon', noCache: true }
       }
-    ]
+    ],
+    meta:{roles: ['admin']}
   },
   /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,
-  chartsRouter,
-  nestedRouter,
   // tableRouter,
-  {
-    path: '/tab',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import(/* webpackChunkName: "tab" */ '@/views/tab/index.vue'),
-        name: 'Tab',
-        meta: { title: 'tab', icon: 'tab' }
-      }
-    ]
-  },
+  // {
+  //   path: '/tab',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import(/* webpackChunkName: "tab" */ '@/views/tab/index.vue'),
+  //       name: 'Tab',
+  //       meta: { title: 'tab', icon: 'tab' }
+  //     }
+  //   ]
+  // },
   {
     path: '/error',
     component: Layout,
@@ -219,88 +193,6 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
-  // {
-  //   path: '/excel',
-  //   component: Layout,
-  //   redirect: '/excel/export-excel',
-  //   name: 'Excel',
-  //   meta: { title: 'excel', icon: 'excel' },
-  //   children: [
-  //     {
-  //       path: 'export-excel',
-  //       component: () => import(/* webpackChunkName: "exportExcel" */ '@/views/excel/exportExcel.vue'),
-  //       name: 'ExportExcel',
-  //       meta: { title: 'exportExcel' }
-  //     },
-  //     {
-  //       path: 'export-selected-excel',
-  //       component: () => import(/* webpackChunkName: "selectExcel" */ '@/views/excel/selectExcel.vue'),
-  //       name: 'SelectExcel',
-  //       meta: { title: 'selectExcel' }
-  //     },
-  //     {
-  //       path: 'export-merge-header',
-  //       component: () => import(/* webpackChunkName: "mergeHeader" */ '@/views/excel/mergeHeader.vue'),
-  //       name: 'MergeHeader',
-  //       meta: { title: 'mergeHeader' }
-  //     },
-  //     {
-  //       path: 'upload-excel',
-  //       component: () => import(/* webpackChunkName: "uploadExcel" */ '@/views/excel/uploadExcel.vue'),
-  //       name: 'UploadExcel',
-  //       meta: { title: 'uploadExcel' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/zip',
-  //   component: Layout,
-  //   redirect: '/zip/download',
-  //   meta: {
-  //     title: 'zip',
-  //     icon: 'zip',
-  //     alwaysShow: true // will always show the root menu
-  //   },
-  //   children: [
-  //     {
-  //       path: 'download',
-  //       component: () => import(/* webpackChunkName: "zip" */ '@/views/zip/index.vue'),
-  //       name: 'ExportZip',
-  //       meta: { title: 'exportZip' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/pdf',
-  //   component: Layout,
-  //   redirect: '/pdf/index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import(/* webpackChunkName: "pdf" */ '@/views/pdf/index.vue'),
-  //       name: 'PDF',
-  //       meta: { title: 'pdf', icon: 'pdf' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/pdf/download',
-  //   component: () => import(/* webpackChunkName: "downloadPdf" */ '@/views/pdf/download.vue'),
-  //   meta: { hidden: true }
-  // },
-  // {
-  //   path: '/theme',
-  //   component: Layout,
-  //   redirect: 'noredirect',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import(/* webpackChunkName: "theme" */ '@/views/theme/index.vue'),
-  //       name: 'Theme',
-  //       meta: { title: 'theme', icon: 'theme' }
-  //     }
-  //   ]
-  // },
   {
     path: '/form',
     component: Layout,
@@ -313,19 +205,19 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
-  {
-    path: '/clipboard',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'index',
-        component: () => import(/* webpackChunkName: "clipboard" */ '@/views/clipboard/index.vue'),
-        name: 'Clipboard',
-        meta: { title: 'clipboard', icon: 'clipboard' }
-      }
-    ]
-  },
+  // {
+  //   path: '/clipboard',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import(/* webpackChunkName: "clipboard" */ '@/views/clipboard/index.vue'),
+  //       name: 'Clipboard',
+  //       meta: { title: 'clipboard', icon: 'clipboard' }
+  //     }
+  //   ]
+  // },
   {
     path: '/i18n',
     component: Layout,
@@ -338,16 +230,16 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/Armour/vue-typescript-admin-template',
-        meta: { title: 'externalLink', icon: 'link' }
-      }
-    ]
-  },
+  // {
+  //   path: 'external-link',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'https://github.com/Armour/vue-typescript-admin-template',
+  //       meta: { title: 'externalLink', icon: 'link' }
+  //     }
+  //   ]
+  // },
   {
     path: '*',
     redirect: '/404',
