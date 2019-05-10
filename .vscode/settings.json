@@ -15,6 +15,10 @@
     "prettyhtml": {
       "printWidth": 100,
       "singleQuote": true
+    },
+    "js-beautify-html": {
+      "wrap_line_length": 120,
+      "wrap_attributes": "auto" //属性强制折行对齐
     }
   },
   "vetur.format.defaultFormatter.html": "js-beautify-html",
