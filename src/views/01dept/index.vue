@@ -75,10 +75,12 @@ export default class DeptManaged extends Vue {
 
   /** 获取所有部门 */
   async getDeptAsync() {
+    this.treeLoading = true;
     const { data } = await api.GetDepartmentList();
     console.log('dadada', data!);
     this.deptTree = data!;
     this.deptTreeBU = data!;
+    this.treeLoading = false;
   }
 
   /** 树节点点击 */

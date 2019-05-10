@@ -33,7 +33,7 @@ module.exports = {
     'vue/html-self-closing': 'off',
     'vue/html-closing-bracket-newline': 'off',
     'vue/html-indent': 'off',
-    'vue/attribute-hyphenation': 'off' // 属性值必须引号
+    'vue/attribute-hyphenation': 'off' // 属性值必须引号 https://blog.csdn.net/qq_30817073/article/details/78043553
   },
   'extends': [
     'eslint:recommended',
