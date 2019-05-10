@@ -132,6 +132,19 @@ export const asyncRoutes: RouteConfig[] = [
     ]
   },
   {
+    path: '/deptmanaged',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import(/* webpackChunkName: "Deptmanaged" */ '@/views/01dept/index.vue'),
+        name: 'Deptmanaged',
+        meta: { title: 'deptmanaged', icon: 'peoples', noCache: true }
+      }
+    ],
+    meta: { roles: ['admin'] }
+  },
+  {
     path: '/icon',
     component: Layout,
     children: [
