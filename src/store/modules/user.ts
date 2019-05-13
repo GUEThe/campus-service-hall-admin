@@ -6,7 +6,7 @@ import {
   Mutation,
   getModule
 } from 'vuex-module-decorators'
-import { Sigin, GetUserInfo, Logout } from '@/api'
+import { Signin, GetUserInfo, Logout } from '@/api'
 import { getToken, setToken, removeToken } from '@/utils/cookies'
 import router, { resetRouter } from '@/router'
 import { PermissionModule } from './permission'
@@ -45,7 +45,7 @@ class User extends VuexModule implements IUserState {
   @Action
   public async Login(signinForm: models.SigninForm) {
     signinForm.username = signinForm.username.trim()
-    const { data } = await Sigin({ signinForm })
+    const { data } = await Signin({ signinForm })
     setToken(data!.token)
     this.SET_TOKEN(data!.token)
   }

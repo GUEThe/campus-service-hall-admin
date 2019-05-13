@@ -10,6 +10,7 @@ export default {
     icons: '图标',
     studentmanaged: '学生管理',
     deptmanaged: '单位管理',
+    usermanaged: '用户管理',
     components: '组件',
     tinymce: '富文本编辑器',
     markdown: 'Markdown',

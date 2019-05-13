@@ -1,39 +1,34 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on"
+      label-position="left">
       <div class="title-container">
         <h3 class="title">王府井大街的蚂蚁开口</h3>
         <lang-select class="set-language" />
       </div>
 
-      <el-form-item prop="category">
-        <span class="svg-container">
-          <svg-icon name="people" />
-        </span>
-        <el-select v-model="loginForm.category" placeholder="请选择身份" class="login-form_select">
-          <el-option label="管理员" :value="1" />
-          <el-option label="学生" :value="2" />
-        </el-select>
-      </el-form-item>
-
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon name="user" />
         </span>
-        <el-input ref="username" v-model="loginForm.username" :placeholder="$t('login.username')" name="username" type="text" auto-complete="on" />
+        <el-input ref="username" v-model="loginForm.username" :placeholder="$t('login.username')" name="username" type="text"
+          auto-complete="on" />
       </el-form-item>
 
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon name="password" />
         </span>
-        <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType" :placeholder="$t('login.password')" name="password" auto-complete="on" @keyup.enter.native="handleLogin" />
+        <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType" :placeholder="$t('login.password')"
+          name="password" auto-complete="on" @keyup.enter.native="handleLogin" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%; margin-bottom:30px;" @click.native.prevent="handleLogin">{{ $t('login.logIn') }}</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%; margin-bottom:30px;" @click.native.prevent="handleLogin">
+        {{ $t('login.logIn') }}
+      </el-button>
 
       <div style="position:relative">
         <div class="tips">
@@ -92,8 +87,7 @@ const validatePassword = (rule: any, value: string, callback: any) => {
 export default class Login extends Vue {
   private loginForm: models.SigninForm = {
     username: 'admin',
-    password: '123456',
-    category: 1
+    password: '123456'
   };
   private loginRules = {
     username: [

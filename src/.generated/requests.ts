@@ -28,16 +28,16 @@ export const wssBaseUrl = `wss://${apiHost}${basePath}/ws`;
 */
 
 /**
- * 登陆获取token
+ *
  * @param signinForm m.SigninForm
  */
-export function Sigin(options: {
+export function Signin(options: {
   signinForm: m.SigninForm;
 }): Promise<m.DataResponse<m.TokenObj>> {
   const opts: ApiRequestOptions = {
     url: `/api/Auth`,
     method: "post",
-    reqName: "Sigin"
+    reqName: "Signin"
   };
 
   opts.data = options.signinForm;
@@ -189,8 +189,35 @@ export function DeleteDepartment(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.Process[]&gt; extends m.RestfulData{
-      data?: m.Process[];
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param guid string string
+ * @param fileKey string string
+ */
+export function GetFile(options: {
+  guid: string;
+  fileKey: string;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Files/${options.fileKey}`,
+    method: "get",
+    reqName: "GetFile"
+  };
+
+  opts.params = {
+    guid: options.guid
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.ProcessView[]&gt; extends m.RestfulData{
+      data?: m.ProcessView[];
       total: number;
       page: number;
       pageSize: number;
@@ -203,7 +230,7 @@ export function DeleteDepartment(options: {
  */
 export function GetProcessList(options: {
   serviceId?: number;
-}): Promise<m.PageResponse<m.Process[]>> {
+}): Promise<m.PageResponse<m.ProcessView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Process`,
     method: "get",
@@ -214,7 +241,7 @@ export function GetProcessList(options: {
     serviceId: options.serviceId
   };
 
-  return apiSendAsync<m.PageResponse<m.Process[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.ProcessView[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -239,8 +266,8 @@ export function PostProcess(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.UserProcess[]&gt; extends m.RestfulData{
-      data?: m.UserProcess[];
+    export interface m.PageResponse&lt;m.ProcessView[]&gt; extends m.RestfulData{
+      data?: m.ProcessView[];
       total: number;
       page: number;
       pageSize: number;
@@ -255,7 +282,7 @@ export function PostProcess(options: {
 export function GetDepartmentProcessList(options: {
   page?: number;
   pageSize?: number;
-}): Promise<m.PageResponse<m.UserProcess[]>> {
+}): Promise<m.PageResponse<m.ProcessView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Process/Department`,
     method: "get",
@@ -269,7 +296,7 @@ export function GetDepartmentProcessList(options: {
     pageSize: options.pageSize
   };
 
-  return apiSendAsync<m.PageResponse<m.UserProcess[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.ProcessView[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.Process&gt; extends m.RestfulData{
@@ -338,8 +365,8 @@ export function DeleteProcess(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.Question[]&gt; extends m.RestfulData{
-      data?: m.Question[];
+    export interface m.PageResponse&lt;m.QuestionView[]&gt; extends m.RestfulData{
+      data?: m.QuestionView[];
       total: number;
       page: number;
       pageSize: number;
@@ -347,14 +374,16 @@ export function DeleteProcess(options: {
 */
 
 /**
- * 咨询问题列表
- * @param page number integer 页码
- * @param pageSize number integer 每页数量
+ *
+ * @param page number integer
+ * @param pageSize number integer
+ * @param name string string
  */
 export function GetQuestionList(options: {
   page?: number;
   pageSize?: number;
-}): Promise<m.PageResponse<m.Question[]>> {
+  name?: string;
+}): Promise<m.PageResponse<m.QuestionView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Question`,
     method: "get",
@@ -365,10 +394,11 @@ export function GetQuestionList(options: {
 
   opts.params = {
     page: options.page,
-    pageSize: options.pageSize
+    pageSize: options.pageSize,
+    name: options.name
   };
 
-  return apiSendAsync<m.PageResponse<m.Question[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.QuestionView[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -577,10 +607,14 @@ export function PostService(options: {
 */
 
 /**
- * 搜索办事列表
- * @param keyword string string title关键字
+ *
+ * @param page number integer
+ * @param pageSize number integer
+ * @param keyword string string
  */
 export function GetSearchServiceList(options: {
+  page?: number;
+  pageSize?: number;
   keyword?: string;
 }): Promise<m.PageResponse<m.Service[]>> {
   const opts: ApiRequestOptions = {
@@ -589,7 +623,11 @@ export function GetSearchServiceList(options: {
     reqName: "GetSearchServiceList"
   };
 
+  options.pageSize = options.pageSize || defaultPageSize;
+
   opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
     keyword: options.keyword
   };
 
@@ -695,29 +733,11 @@ export function DeleteService(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
-      data?: m.RestfulData;
-    }
-*/
-
-/**
- * 下载文件
- * @param fileKey number integer
- */
-export function GetFile(options: {
-  fileKey: number;
-}): Promise<m.DataResponse<m.RestfulData>> {
-  const opts: ApiRequestOptions = {
-    url: `/api/ServiceFile/${options.fileKey}`,
-    method: "get",
-    reqName: "GetFile"
-  };
-
-  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
-}
-/*
-    export interface m.DataResponse&lt;m.User&gt; extends m.RestfulData{
-      data?: m.User;
+    export interface m.PageResponse&lt;m.User[]&gt; extends m.RestfulData{
+      data?: m.User[];
+      total: number;
+      page: number;
+      pageSize: number;
     }
 */
 
@@ -729,7 +749,7 @@ export function GetFile(options: {
 export function GetUserList(options: {
   page?: number;
   pageSize?: number;
-}): Promise<m.DataResponse<m.User>> {
+}): Promise<m.PageResponse<m.User[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/User`,
     method: "get",
@@ -743,7 +763,7 @@ export function GetUserList(options: {
     pageSize: options.pageSize
   };
 
-  return apiSendAsync<m.DataResponse<m.User>>(opts);
+  return apiSendAsync<m.PageResponse<m.User[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -834,8 +854,8 @@ export function DeleteUser(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.UserProcess[]&gt; extends m.RestfulData{
-      data?: m.UserProcess[];
+    export interface m.PageResponse&lt;m.UserProcessView[]&gt; extends m.RestfulData{
+      data?: m.UserProcessView[];
       total: number;
       page: number;
       pageSize: number;
@@ -848,7 +868,7 @@ export function DeleteUser(options: {
  */
 export function GetUserProcessList(options: {
   userServiceId?: number;
-}): Promise<m.PageResponse<m.UserProcess[]>> {
+}): Promise<m.PageResponse<m.UserProcessView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/UserProcess`,
     method: "get",
@@ -859,7 +879,64 @@ export function GetUserProcessList(options: {
     userServiceId: options.userServiceId
   };
 
-  return apiSendAsync<m.PageResponse<m.UserProcess[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.UserProcessView[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.UserProcessView[]&gt; extends m.RestfulData{
+      data?: m.UserProcessView[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
+ *
+ * @param page number integer
+ * @param pageSize number integer
+ * @param name string string
+ */
+export function GetUserProcessViewList(options: {
+  page?: number;
+  pageSize?: number;
+  name?: string;
+}): Promise<m.PageResponse<m.UserProcessView[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserProcess/DataView`,
+    method: "get",
+    reqName: "GetUserProcessViewList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize,
+    name: options.name
+  };
+
+  return apiSendAsync<m.PageResponse<m.UserProcessView[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.ProcessView&gt; extends m.RestfulData{
+      data?: m.ProcessView;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function GetUserProcessView(options: {
+  id: number;
+}): Promise<m.DataResponse<m.ProcessView>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/UserProcess/${options.id}`,
+    method: "get",
+    reqName: "GetUserProcessView"
+  };
+
+  return apiSendAsync<m.DataResponse<m.ProcessView>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -886,8 +963,8 @@ export function PutUserProcess(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.UserService[]&gt; extends m.RestfulData{
-      data?: m.UserService[];
+    export interface m.PageResponse&lt;m.UserServiceView[]&gt; extends m.RestfulData{
+      data?: m.UserServiceView[];
       total: number;
       page: number;
       pageSize: number;
@@ -895,14 +972,16 @@ export function PutUserProcess(options: {
 */
 
 /**
- * 用户服务申请列表
- * @param page number integer 页码
- * @param pageSize number integer 每页数量
+ *
+ * @param page number integer
+ * @param pageSize number integer
+ * @param name string string
  */
 export function GetUserServiceList(options: {
   page?: number;
   pageSize?: number;
-}): Promise<m.PageResponse<m.UserService[]>> {
+  name?: string;
+}): Promise<m.PageResponse<m.UserServiceView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/UserService`,
     method: "get",
@@ -913,10 +992,11 @@ export function GetUserServiceList(options: {
 
   opts.params = {
     page: options.page,
-    pageSize: options.pageSize
+    pageSize: options.pageSize,
+    name: options.name
   };
 
-  return apiSendAsync<m.PageResponse<m.UserService[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.UserServiceView[]>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -974,8 +1054,8 @@ export function GetMyServiceList(options: {
   return apiSendAsync<m.PageResponse<m.UserService[]>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.UserService[]&gt; extends m.RestfulData{
-      data?: m.UserService[];
+    export interface m.PageResponse&lt;m.UserServiceView[]&gt; extends m.RestfulData{
+      data?: m.UserServiceView[];
       total: number;
       page: number;
       pageSize: number;
@@ -990,7 +1070,7 @@ export function GetMyServiceList(options: {
 export function GetDepartmentUserServiceList(options: {
   page?: number;
   pageSize?: number;
-}): Promise<m.PageResponse<m.UserService[]>> {
+}): Promise<m.PageResponse<m.UserServiceView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/UserService/Department`,
     method: "get",
@@ -1004,7 +1084,7 @@ export function GetDepartmentUserServiceList(options: {
     pageSize: options.pageSize
   };
 
-  return apiSendAsync<m.PageResponse<m.UserService[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.UserServiceView[]>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.UserService[]&gt; extends m.RestfulData{
@@ -1016,18 +1096,18 @@ export function GetDepartmentUserServiceList(options: {
 */
 
 /**
- * 单位办事连接查询列表
+ *
  * @param page number integer
  * @param pageSize number integer
  */
-export function GetUserServiceDetailsList(options: {
+export function GetUserServiceViewList(options: {
   page?: number;
   pageSize?: number;
 }): Promise<m.PageResponse<m.UserService[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/UserService/ViewData`,
     method: "get",
-    reqName: "GetUserServiceDetailsList"
+    reqName: "GetUserServiceViewList"
   };
 
   options.pageSize = options.pageSize || defaultPageSize;

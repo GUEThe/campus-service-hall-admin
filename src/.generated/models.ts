@@ -9,12 +9,6 @@
  */
 export interface SigninForm {
   /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  category: number;
-  /**
    *
    *
    * @serverType string
@@ -116,6 +110,89 @@ export interface Department {
 /*
  * @namespace models
  */
+export interface ProcessView {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  serviceId: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  serviceName: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  description: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  fileGUID: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  order: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  creator: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  time: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  departmentId: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  departmentName: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  fileName: string;
+}
+/*
+ * @namespace models
+ */
 export interface Process {
   /**
    *  int32
@@ -146,7 +223,7 @@ export interface Process {
    *
    * @serverType string
    */
-  fileTemplate: string;
+  fileGUID: string;
   /**
    *  int32
    *
@@ -181,7 +258,7 @@ export interface Process {
 /*
  * @namespace models
  */
-export interface UserProcess {
+export interface QuestionView {
   /**
    *  int32
    *
@@ -195,29 +272,41 @@ export interface UserProcess {
    */
   userId: number;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  userServiceId: number;
+  title: string;
   /**
    *  int32
    *
    * @serverType integer
    */
-  processId: number;
+  serviceId: number;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  status: number;
+  content: string;
   /**
-   *  int32
    *
-   * @serverType integer
+   *
+   * @serverType string
    */
-  operator: number;
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  phone: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  mail: string;
   /**
    *  int64
    *
@@ -229,19 +318,49 @@ export interface UserProcess {
    *
    * @serverType string
    */
-  uploadFile: string;
+  replyContent: string;
   /**
    *  int32
    *
    * @serverType integer
    */
-  departmentId: number;
+  replyUserId: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  relpyTime: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  status: number;
   /**
    *
    *
    * @serverType string
    */
-  feedback: string;
+  serviceName: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  department: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  userName: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  userNickname: string;
 }
 /*
  * @namespace models
@@ -329,35 +448,6 @@ export interface Question {
 /*
  * @namespace models
  */
-export interface QuestionView {
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  id: number;
-  /**
-   *
-   *
-   * @serverType
-   */
-  userQuestion: Question;
-  /**
-   *
-   *
-   * @serverType string
-   */
-  title: string;
-  /**
-   *  int32
-   *
-   * @serverType integer
-   */
-  department: number;
-}
-/*
- * @namespace models
- */
 export interface Service {
   /**
    *  int32
@@ -413,6 +503,12 @@ export interface Service {
    * @serverType string
    */
   tags: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  fileGUID: string;
 }
 /*
  * @namespace models
@@ -472,6 +568,297 @@ export interface User {
    * @serverType integer
    */
   departmentId: number;
+}
+/*
+ * @namespace models
+ */
+export interface UserProcessView {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  userId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  userServiceId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  processId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  status: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  operator: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  time: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  fileGUID: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  departmentId: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  feedback: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  serviceId: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  description: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  order: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  departmentName: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  userName: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  userNickname: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  serviceType: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  serviceTitle: string;
+}
+/*
+ * @namespace models
+ */
+export interface UserProcess {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  userId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  userServiceId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  processId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  status: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  operator: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  time: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  fileGUID: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  departmentId: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  feedback: string;
+}
+/*
+ * @namespace models
+ */
+export interface UserServiceView {
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  id: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  userId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  serviceId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  status: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  comment: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  time: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  handler: number;
+  /**
+   *  int64
+   *
+   * @serverType integer
+   */
+  handleTime: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  currentProcess: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  currentDepartment: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  role: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  userDepartmentId: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  serviceName: string;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  servcieDepartmentId: number;
+  /**
+   *  int32
+   *
+   * @serverType integer
+   */
+  type: number;
 }
 /*
  * @namespace models
