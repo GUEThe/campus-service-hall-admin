@@ -156,6 +156,53 @@ export const asyncRoutes: RouteConfig[] = [
     ]
   },
   {
+    path: '/service',
+    component: Layout,
+    meta: { title: 'service', icon: 'example', noCache: true },
+    redirect: '/service/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import(/* webpackChunkName: "03service" */ '@/views/03service/index.vue'),
+        name: 'Service',
+        meta: { title: 'serviceList', noCache: true }
+      },
+      {
+        path: 'createservice',
+        component: () => import(/* webpackChunkName: "createservice" */ '@/views/03service/createservice.vue'),
+        name: 'Createservice',
+        meta: { title: 'createservice', noCache: true }
+      },
+      {
+        path: 'editservice:id?',
+        component: () => import(/* webpackChunkName: "editservice" */ '@/views/03service/EditService.vue'),
+        name: 'Editservice',
+        meta: { title: 'editservice', noCache: true, hidden: true }
+      }
+    ]
+  },
+  {
+    path: '/process',
+    component: Layout,
+    meta: { title: 'process', icon: 'nested', noCache: true, hidden: true },
+    redirect: '/process/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import(/* webpackChunkName: "index" */ '@/views/04process/index.vue'),
+        name: 'Process',
+        meta: { title: 'processList', noCache: true }
+      },
+      {
+        path: 'editprocess',
+        component: () => import(/* webpackChunkName: "process" */ '@/views/04process/EditProcess.vue'),
+        name: 'Editprocess',
+        meta: { title: 'editprocess', noCache: true }
+      }
+    ]
+  },
+
+  {
     path: '/icon',
     component: Layout,
     children: [

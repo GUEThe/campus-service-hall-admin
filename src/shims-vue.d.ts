@@ -15,3 +15,12 @@ declare module '*.gif' {
 declare module 'vue-count-to' {
   // Placeholder
 }
+
+declare module 'tinymce/tinymce' {
+  const tinymce: any;
+  export default tinymce;
+}
+declare module 'sortablejs' {
+  const Sortable: any;
+  export default Sortable;
+}
