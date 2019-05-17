@@ -175,7 +175,7 @@ export const asyncRoutes: RouteConfig[] = [
       },
       {
         path: 'editservice:id?',
-        component: () => import(/* webpackChunkName: "editservice" */ '@/views/03service/EditService.vue'),
+        component: () => import(/* webpackChunkName: "editservice" */ '@/views/03service/ServiceDetail.vue'),
         name: 'Editservice',
         meta: { title: 'editservice', noCache: true, hidden: true }
       }

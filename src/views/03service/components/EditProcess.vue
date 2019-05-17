@@ -1,46 +1,38 @@
 <template>
   <div class="createPost-container">
-    <el-form ref="formData" :model="formData" class="form-container" label-width="150px">
+    <el-form ref="formData" :model="formData" :rules="rules" class="form-container" label-width="150px">
       <div class="createPost-main-container">
-        <el-form-item style="margin-bottom: 40px;" prop="title" label="标题">
-          <el-input v-model="formData.title"></el-input>
+        <el-form-item prop="name" label="名称">
+          <el-input v-model="formData.name"></el-input>
         </el-form-item>
-        <div class="postInfo-container">
-<el-form-item label-width="90px" label="类型:">
-            <el-select v-model="formData.type" placeholder="请选择">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
+        <el-form-item label="类型:">
+          <el-select v-model="formData.type" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-          <el-form-item label-width="60px" label="部门">
-            <DeptSelect :deptId.sync="formData.department" />
-          </el-form-item>
+        <el-form-item label="部门">
+          <DeptSelect :deptId.sync="formData.departmentId" />
+        </el-form-item>
 
-          <el-form-item label-width="120px" label="图标:">
-            <el-button>点击上传</el-button>
-          </el-form-item>
-
-          <el-form-item label-width="90px" label="标签:">
-            <el-tag v-for="(tag,index) in formData.tags" :key="index" :disable-transitions="false" closable @close="handleClose(tag)">
-              {{ tag }}
-            </el-tag>
-            <el-input v-if="inputVisible" ref="saveTagInput" v-model="inputValue" size="small" class="input-new-tag"
-              @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
-            </el-input>
-            <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-          </el-form-item>
-</div>
-
-        <p>详细内容:</p>
-        <el-form-item prop="content" style="margin-bottom: 30px;">
+        <el-form-item label="次序">
+          <el-input v-model="formData.order" type="number"></el-input>
+        </el-form-item>
+        <el-form-item label="附件上传">
+          <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1">
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="详细内容">
+        </el-form-item>
+        <el-form-item prop="content" style="height:300px;margin-bottom: 30px;">
           <Editor :editorContent.sync="formData.description" />
         </el-form-item>
-        <el-button type="primary" :loading="loading" @click="onSubmitAsync()">下一步</el-button>
-        <!-- <el-upload class="upload-demo" drag action="http://118.89.50.76:9466/v1/api/ServiceFile/UploadFile" multiple>
-          <i class="el-icon-upload"></i>
-          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        </el-upload> -->
+
+        <el-button type="primary" :loading="loading" @click="onSubmitAsync()">{{ id?'保 存':'添 加' }}</el-button>
+        <el-button v-if="id" type="primary" :loading="loading" @click="addNewProcess()">添加新流程</el-button>
+        <el-button v-if="id" type="primary" :loading="loading" @click="backToService()">返回编辑事项</el-button>
       </div>
     </el-form>
   </div>
@@ -52,91 +44,99 @@ import * as api from '@/api';
 import * as models from '@/api/models';
 import Editor from '@/components/Tinymce/index.vue';
 import DeptSelect from '@/components/DeptSelect/index.vue';
-/** 办事详情编辑 */
+import { ElForm } from 'element-ui/types/form';
+import { UserModule } from '@/store/modules/user';
+import { ServiceModule } from '@/store/modules/service';
+/** 流程详情编辑 */
 @Component({
   components: {
     Editor, DeptSelect
   }
 })
-export default class ServiceEdit extends Vue {
-  @Prop({ default: true }) isEdit?: boolean;
-
-  private id: string = '';
+export default class ProcessEdit extends Vue {
   private inputVisible = false;
   private loading = false;
-  private formData: models.Service = {
+  private imageUrl = '';
+  private id = 0;
+  private formData: models.Process = {
     id: 0,
-    title: '',
+    serviceId: 0,
     description: '',
+    name: '',
     type: 0,
     creator: 0,
-    icon: '',
-    department: 0,
-    createAt: 0,
-    tags: '',
-    fileGUID: ''
+    order: 0,
+    fileGUID: '',
+    departmentId: 0,
+    time: 0
   };
   private options = [{
     value: 0,
-    label: '黄金糕'
+    label: '学生'
   }, {
     value: 1,
-    label: '双皮奶'
+    label: '老师'
   }, {
     value: 2,
-    label: '蚵仔煎'
-  }, {
-    value: 3,
-    label: '龙须面'
-  }, {
-    value: 4,
-    label: '北京烤鸭'
+    label: '其他'
   }];
-  private dynamicTags: string[] = [];
   private inputValue = '';
+  private rules = {
+    name:
+      [{ required: true, message: '请输入标题名称', trigger: 'blur' }]
+  };
 
   mounted() {
-    this.getServiceAsync();
-  }
-
-  async getServiceAsync() {
-    this.id = this.$route.query.id ? this.$route.query.id as string : '';
-    if (this.id) {
-      const { data } = await api.GetService({ id: parseInt(this.id, 10) });
-      this.formData = data!;
-    }
-  }
-
-  async onSubmitAsync() {
-    this.loading = true;
-    this.id = this.$route.query.id ? this.$route.query.id as string : '';
-    const routerEdit = this.$route.query.isEdit as string === 'true';
-    const { data } = routerEdit && this.isEdit ? await api.PutService({ value: this.formData, id: this.id }) : await api.PostService({ value: this.formData });
-    this.loading = false;
-    if (data) {
-      this.$message.success('操作成功！');
-      this.$router.push({ name: 'Process', query: { serviceId: `${data}` } });
-    }
-  }
-
-  handleClose(tag: string) {
-    this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-  }
-
-  showInput() {
-    this.inputVisible = true;
-    this.$nextTick(() => {
-      (this.$refs.saveTagInput as any).$refs.input.focus();
+    this.$on('global:get-process', (id: number) => {
+      this.id = id;
+      this.getProcessAsync(id)
     });
   }
 
-  handleInputConfirm() {
-    let inputValue = this.inputValue;
-    if (inputValue) {
-      this.dynamicTags.push(inputValue);
-    }
-    this.inputVisible = false;
-    this.inputValue = '';
+  get Header() {
+    return { Authorization: 'Bearer ' + UserModule.token };
+  }
+
+  async getProcessAsync(id: number) {
+    const { data } = await api.GetProcess({ id });
+    this.formData = data!;
+  }
+
+  async onSubmitAsync() {
+    this.formData.serviceId = ServiceModule.id;
+    console.log('sssssss', this.formData.serviceId);
+    (this.$refs.formData as ElForm).validate(async (valid: any) => {
+      if (valid) {
+        const { data } = this.id ? await api.PutProcess({ value: this.formData, id: this.id as any }) : await api.PostProcess({ value: this.formData });
+        if (data) {
+          this.$message.success('操作成功！');
+          this.$emit('global:updateList');
+        }
+      }
+    });
+  }
+
+  handleSuccess1(res: any, file: any) {
+    this.formData.fileGUID = res.data;
+  }
+
+  addNewProcess() {
+    this.id = 0;
+    this.formData = {
+      id: 0,
+      serviceId: 0,
+      description: '',
+      name: '',
+      type: 0,
+      creator: 0,
+      order: 0,
+      fileGUID: '',
+      departmentId: 0,
+      time: 0
+    };
+  }
+  backToService() {
+    this.$emit('global:back');
   }
 }
 </script>

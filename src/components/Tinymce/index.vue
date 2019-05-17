@@ -25,7 +25,7 @@ export default class TinymceEditor extends Vue {
     language: 'zh_CN',
     selector: 'textarea',
     skin_url: './static/skins/lightgray',
-    height: 400,
+    height: 200,
     branding: false,
     // width:600,
     plugins: 'link lists code table colorpicker textcolor wordcount contextmenu',

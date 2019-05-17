@@ -3,8 +3,11 @@
     <div class="board-column-header">
       {{ headerText }}
     </div>
-    <div v-for="element in listData" :key="element.id" class="board-item">
-      {{ element.name }} {{ element.id }}
+    <div class="board-column-content">
+      <div v-for="(element,index) in listData" :key="index" class="board-item" @click="handleItemClick(element.id)">
+        {{ element.name }}
+      </div>
+      <p v-if="!listData.length">暂无数据，请添加流程</p>
     </div>
   </div>
 </template>
@@ -13,61 +16,46 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
-import Sortable from 'sortablejs';
 
 /** 流程列表组件 */
 @Component({})
 export default class ProcesstList extends Vue {
+  @Prop({ default: 0 }) serviceId?: number;
   listLoading: boolean = false;
   listData: models.Process[] = [];
   search = '';
+  headerText = '办事流程'
   editId = 0;
   showDialog = false;
   page = 1;
   total = 0;
   sortable = '';
   list: any[] = [];
-  newList = [];
-  oldList = [];
+
   mounted() {
     this.getProcessAsync();
-    this.$nextTick(() => {
-      this.setSort();
-    })
+    this.$on('global:updateList', () => { this.getProcessAsync() });
   }
 
-  setSort() {
-    const el = (this.$refs.dragTable as any).$el.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
-    this.sortable = Sortable.create(el, {
-      ghostClass: 'sortable-ghost',
-      setData: function (dataTransfer: any) {
-        dataTransfer.setData('Text', '');
-      },
-      onEnd: (evt: any) => {
-        const targetRow = this.list.splice(evt.oldIndex, 1)[0];
-        this.list.splice(evt.newIndex, 0, targetRow);
-      }
-    })
+  @Watch('serviceId')
+  onserviceIdChange(val: number) {
+    if (val) {
+      this.getProcessAsync();
+    }
   }
 
   async getProcessAsync() {
     this.listLoading = true;
-    const serviceId = this.$route.query.serviceId as string;
-    const { data, total } = await api.GetProcessList({ serviceId: parseInt(serviceId, 10) });
-    console.log(data);
-    this.listData = data!;
-    this.list = data!.map((e: models.Process) => {
-      return e.order;
-    });
-    this.total = total!;
-    this.listLoading = false;
-  }
-
-  onEditProcess(id: number, type: boolean) {
-    this.$router.push({
-      name: 'Editprocess',
-      query: { id: `${id}`, isEdit: `${type}` }
-    })
+    if (this.serviceId) {
+      const { data, total } = await api.GetProcessList({ serviceId: this.serviceId });
+      console.log(data);
+      this.listData = data!;
+      this.list = data!.map((e: models.Process) => {
+        return e.order;
+      });
+      this.total = total!;
+      this.listLoading = false;
+    }
   }
 
   async onDeleteAsync(id: number) {
@@ -85,12 +73,19 @@ export default class ProcesstList extends Vue {
       //
     });
   }
+
+  handleItemClick(id: number) {
+    this.$emit('global:add-process');
+    setTimeout(() => {
+      this.$emit('global:get-process', id);
+    }, 500);
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .board-column {
-  min-width: 300px;
+  width: 200px;
   min-height: 100px;
   height: auto;
   overflow: hidden;
@@ -102,7 +97,7 @@ export default class ProcesstList extends Vue {
     overflow: hidden;
     padding: 0 20px;
     text-align: center;
-    background: #333;
+    background: rgb(93, 195, 212);
     color: #fff;
     border-radius: 3px 3px 0 0;
   }
@@ -112,7 +107,7 @@ export default class ProcesstList extends Vue {
     border: 10px solid transparent;
     min-height: 60px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     flex-direction: column;
     align-items: center;
     .board-item {
@@ -121,7 +116,7 @@ export default class ProcesstList extends Vue {
       height: 64px;
       margin: 5px 0;
       background-color: #fff;
-      text-align: left;
+      text-align: center;
       line-height: 54px;
       padding: 5px 10px;
       box-sizing: border-box;

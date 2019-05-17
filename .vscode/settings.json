@@ -8,9 +8,7 @@
     "**/.DS_Store": true
   },
   "emmet.triggerExpansionOnTab": true,
-  "prettier.printWidth": 120,
   "typescript.suggest.autoImports": true,
-
   "vetur.format.defaultFormatterOptions": {
     "prettyhtml": {
       "printWidth": 100,

@@ -20,7 +20,12 @@ declare module 'tinymce/tinymce' {
   const tinymce: any;
   export default tinymce;
 }
+
 declare module 'sortablejs' {
   const Sortable: any;
   export default Sortable;
+}
+declare module 'vue-event-proxy' {
+  const EventProxy: any;
+  export default EventProxy;
 }

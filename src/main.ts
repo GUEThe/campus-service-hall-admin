@@ -14,6 +14,7 @@ import '@/icons/components'
 import '@/permission'
 import '@/utils/error-log' // Error log
 import '@/registerServiceWorker'
+import EventProxy from 'vue-event-proxy';
 
 import { mockXHR } from '../mock'
 mockXHR()
@@ -22,7 +23,7 @@ Vue.use(ElementUI, {
   size: AppModule.size, // set element-ui default size
   i18n: (key: string, value: string) => i18n.t(key, value)
 })
-
+Vue.use(EventProxy);
 Vue.use(SvgIcon, {
   tagName: 'svg-icon',
   defaultWidth: '1em',
