@@ -139,7 +139,7 @@ export const asyncRoutes: RouteConfig[] = [
         path: 'index',
         component: () => import(/* webpackChunkName: "Deptmanaged" */ '@/views/01dept/index.vue'),
         name: 'Deptmanaged',
-        meta: { title: 'deptmanaged', icon: 'peoples', noCache: true }
+        meta: { title: 'deptmanaged', icon: 'tree', noCache: true }
       }
     ]
   },
@@ -165,13 +165,7 @@ export const asyncRoutes: RouteConfig[] = [
         path: 'index',
         component: () => import(/* webpackChunkName: "03service" */ '@/views/03service/index.vue'),
         name: 'Service',
-        meta: { title: 'serviceList', noCache: true }
-      },
-      {
-        path: 'createservice',
-        component: () => import(/* webpackChunkName: "createservice" */ '@/views/03service/createservice.vue'),
-        name: 'Createservice',
-        meta: { title: 'createservice', noCache: true }
+        meta: { title: 'serviceList', icon: 'example', noCache: true }
       },
       {
         path: 'editservice:id?',
@@ -181,39 +175,31 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
+
   {
-    path: '/process',
+    path: '/audit',
     component: Layout,
-    meta: { title: 'process', icon: 'nested', noCache: true, hidden: true },
-    redirect: '/process/index',
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "index" */ '@/views/04process/index.vue'),
-        name: 'Process',
-        meta: { title: 'processList', noCache: true }
-      },
-      {
-        path: 'editprocess',
-        component: () => import(/* webpackChunkName: "process" */ '@/views/04process/EditProcess.vue'),
-        name: 'Editprocess',
-        meta: { title: 'editprocess', noCache: true }
+        component: () => import(/* webpackChunkName: "audit" */ '@/views/05audit/index.vue'),
+        name: 'audit',
+        meta: { title: 'icons', icon: 'icon', noCache: true }
       }
     ]
   },
-
-  // {
-  //   path: '/icon',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import(/* webpackChunkName: "icons" */ '@/views/svg-icons/index.vue'),
-  //       name: 'Icons',
-  //       meta: { title: 'icons', icon: 'icon', noCache: true }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/icon',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import(/* webpackChunkName: "icons" */ '@/views/svg-icons/index.vue'),
+        name: 'Icons',
+        meta: { title: 'icons', icon: 'icon', noCache: true }
+      }
+    ]
+  },
   /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,
   // tableRouter,

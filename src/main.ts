@@ -31,6 +31,20 @@ Vue.use(SvgIcon, {
 })
 
 Vue.config.productionTip = false
+Vue.filter('stateFilter', (state: number) => {
+  switch (state) {
+    case -1: {
+      return '未处理'
+    }
+    case 0: {
+      return '审核不通过'
+    }
+    case 1: {
+      return '审核通过'
+    }
+    default: return;
+  }
+});
 
 new Vue({
   router,
