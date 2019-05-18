@@ -175,7 +175,6 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
-
   {
     path: '/audit',
     component: Layout,
@@ -184,22 +183,34 @@ export const asyncRoutes: RouteConfig[] = [
         path: 'index',
         component: () => import(/* webpackChunkName: "audit" */ '@/views/05audit/index.vue'),
         name: 'audit',
-        meta: { title: 'icons', icon: 'icon', noCache: true }
+        meta: { title: 'audit', icon: 'edit', noCache: true }
       }
     ]
   },
   {
-    path: '/icon',
+    path: '/question',
     component: Layout,
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "icons" */ '@/views/svg-icons/index.vue'),
-        name: 'Icons',
-        meta: { title: 'icons', icon: 'icon', noCache: true }
+        component: () => import(/* webpackChunkName: "question" */ '@/views/04question/index.vue'),
+        name: 'question',
+        meta: { title: 'question', icon: 'wechat', noCache: true }
       }
     ]
   },
+  // {
+  //   path: '/icon',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import(/* webpackChunkName: "icons" */ '@/views/svg-icons/index.vue'),
+  //       name: 'Icons',
+  //       meta: { title: 'icons', icon: 'icon', noCache: true }
+  //     }
+  //   ]
+  // },
   /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,
   // tableRouter,

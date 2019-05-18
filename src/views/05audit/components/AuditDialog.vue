@@ -9,7 +9,7 @@
           <span> {{ formData.serviceName }}</span>
         </el-form-item>
         <el-form-item label="描述">
-          <div style="width:50%">
+          <div style="border:1px solid #eee">
             <div v-html="formData.description">
             </div>
           </div>
@@ -119,6 +119,6 @@ export default class UserProcessDialog extends Vue {
 .demo-table-expand .el-form-item {
   margin-right: 0;
   margin-bottom: 0;
-  width: 50%;
+  width: 80%;
 }
 </style>

@@ -19,6 +19,8 @@ export default {
     process: '流程管理',
     processList: '流程列表',
     editprocess: '流程编辑',
+    audit: '流程审核',
+    question: '问题答复',
     components: '组件',
     tinymce: '富文本编辑器',
     markdown: 'Markdown',
