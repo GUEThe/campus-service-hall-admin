@@ -49,7 +49,7 @@ export default class DeptManaged extends Vue {
   }];
   deptTree: models.Department[] = [];
   deptTreeBU: models.Department[] = [];
-  searchDept = '';
+  search = '';
   editId = 0;
   editType = 0;
   showDialog = false;
