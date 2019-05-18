@@ -10,6 +10,10 @@
           <el-input v-model="formData.description" type="textarea" :rows="3"></el-input>
         </el-form-item>
 
+        <el-form-item label="部门电话">
+          <el-input v-model="formData.phone"></el-input>
+        </el-form-item>
+
         <el-form-item label="显示次序">
           <el-input v-model="formData.order"></el-input>
         </el-form-item>
@@ -43,7 +47,8 @@ export default class DialogDeptEdit extends Vue {
     name: '',
     description: '',
     order: 0,
-    parentId: 0
+    parentId: 0,
+    phone: ''
   }
 
   mounted() {
@@ -65,7 +70,8 @@ export default class DialogDeptEdit extends Vue {
         name: '',
         description: '',
         order: 0,
-        parentId: 0
+        parentId: 0,
+        phone: ''
       }
     }
   }

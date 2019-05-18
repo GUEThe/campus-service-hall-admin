@@ -202,18 +202,18 @@ export const asyncRoutes: RouteConfig[] = [
     ]
   },
 
-  {
-    path: '/icon',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import(/* webpackChunkName: "icons" */ '@/views/svg-icons/index.vue'),
-        name: 'Icons',
-        meta: { title: 'icons', icon: 'icon', noCache: true }
-      }
-    ]
-  },
+  // {
+  //   path: '/icon',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import(/* webpackChunkName: "icons" */ '@/views/svg-icons/index.vue'),
+  //       name: 'Icons',
+  //       meta: { title: 'icons', icon: 'icon', noCache: true }
+  //     }
+  //   ]
+  // },
   /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,
   // tableRouter,
@@ -229,52 +229,52 @@ export const asyncRoutes: RouteConfig[] = [
   //     }
   //   ]
   // },
-  {
-    path: '/error',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'ErrorPages',
-    meta: { title: 'errorPages', icon: '404' },
-    children: [
-      {
-        path: '401',
-        component: () => import(/* webpackChunkName: "page401" */ '@/views/error-page/401.vue'),
-        name: 'Page401',
-        meta: { title: 'page401', noCache: true }
-      },
-      {
-        path: '404',
-        component: () => import(/* webpackChunkName: "page404" */ '@/views/error-page/404.vue'),
-        name: 'Page404',
-        meta: { title: 'page404', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/error-log',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'log',
-        component: () => import(/* webpackChunkName: "errorLog" */ '@/views/error-log/index.vue'),
-        name: 'ErrorLog',
-        meta: { title: 'errorLog', icon: 'bug' }
-      }
-    ]
-  },
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import(/* webpackChunkName: "form" */ '@/views/form/index.vue'),
-        meta: { title: 'form', icon: 'form' }
-      }
-    ]
-  },
+  // {
+  //   path: '/error',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: 'ErrorPages',
+  //   meta: { title: 'errorPages', icon: '404' },
+  //   children: [
+  //     {
+  //       path: '401',
+  //       component: () => import(/* webpackChunkName: "page401" */ '@/views/error-page/401.vue'),
+  //       name: 'Page401',
+  //       meta: { title: 'page401', noCache: true }
+  //     },
+  //     {
+  //       path: '404',
+  //       component: () => import(/* webpackChunkName: "page404" */ '@/views/error-page/404.vue'),
+  //       name: 'Page404',
+  //       meta: { title: 'page404', noCache: true }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/error-log',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   children: [
+  //     {
+  //       path: 'log',
+  //       component: () => import(/* webpackChunkName: "errorLog" */ '@/views/error-log/index.vue'),
+  //       name: 'ErrorLog',
+  //       meta: { title: 'errorLog', icon: 'bug' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: () => import(/* webpackChunkName: "form" */ '@/views/form/index.vue'),
+  //       meta: { title: 'form', icon: 'form' }
+  //     }
+  //   ]
+  // },
   // {
   //   path: '/clipboard',
   //   component: Layout,
@@ -288,18 +288,18 @@ export const asyncRoutes: RouteConfig[] = [
   //     }
   //   ]
   // },
-  {
-    path: '/i18n',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import(/* webpackChunkName: "i18n" */ '@/views/international/index.vue'),
-        name: 'I18n',
-        meta: { title: 'i18n', icon: 'international' }
-      }
-    ]
-  },
+  // {
+  //   path: '/i18n',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import(/* webpackChunkName: "i18n" */ '@/views/international/index.vue'),
+  //       name: 'I18n',
+  //       meta: { title: 'i18n', icon: 'international' }
+  //     }
+  //   ]
+  // },
   // {
   //   path: 'external-link',
   //   component: Layout,

@@ -71,6 +71,18 @@ export interface UserInfo {
    * @serverType string
    */
   name: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  phone: string;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  mail: string;
 }
 /*
  * @namespace models
@@ -106,6 +118,12 @@ export interface Department {
    * @serverType integer
    */
   order: number;
+  /**
+   *
+   *
+   * @serverType string
+   */
+  phone: string;
 }
 /*
  * @namespace models
@@ -895,7 +913,7 @@ export interface UserService {
    */
   comment: string;
   /**
-   *  int32
+   *  int64
    *
    * @serverType integer
    */

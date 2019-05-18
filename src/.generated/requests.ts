@@ -197,20 +197,14 @@ export function DeleteDepartment(options: {
 /**
  *
  * @param guid string string
- * @param fileKey string string
  */
 export function GetFile(options: {
   guid: string;
-  fileKey: string;
 }): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
-    url: `/api/Files/${options.fileKey}`,
+    url: `/api/Files/${options.guid}`,
     method: "get",
     reqName: "GetFile"
-  };
-
-  opts.params = {
-    guid: options.guid
   };
 
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
@@ -378,11 +372,13 @@ export function DeleteProcess(options: {
  * @param page number integer
  * @param pageSize number integer
  * @param name string string
+ * @param status number integer
  */
 export function GetQuestionList(options: {
   page?: number;
   pageSize?: number;
   name?: string;
+  status?: number;
 }): Promise<m.PageResponse<m.QuestionView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Question`,
@@ -395,7 +391,8 @@ export function GetQuestionList(options: {
   opts.params = {
     page: options.page,
     pageSize: options.pageSize,
-    name: options.name
+    name: options.name,
+    status: options.status
   };
 
   return apiSendAsync<m.PageResponse<m.QuestionView[]>>(opts);
@@ -496,6 +493,27 @@ export function GetServiceQuestionList(options: {
   };
 
   return apiSendAsync<m.PageResponse<m.QuestionView[]>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.Question&gt; extends m.RestfulData{
+      data?: m.Question;
+    }
+*/
+
+/**
+ *
+ * @param id number integer
+ */
+export function GetQuestion(options: {
+  id: number;
+}): Promise<m.DataResponse<m.Question>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Question/${options.id}`,
+    method: "get",
+    reqName: "GetQuestion"
+  };
+
+  return apiSendAsync<m.DataResponse<m.Question>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -611,11 +629,15 @@ export function PostService(options: {
  * @param page number integer
  * @param pageSize number integer
  * @param keyword string string
+ * @param type number integer
+ * @param deptment number integer
  */
 export function GetSearchServiceList(options: {
   page?: number;
   pageSize?: number;
   keyword?: string;
+  type?: number;
+  deptment?: number;
 }): Promise<m.PageResponse<m.Service[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/Service/Search`,
@@ -628,7 +650,9 @@ export function GetSearchServiceList(options: {
   opts.params = {
     page: options.page,
     pageSize: options.pageSize,
-    keyword: options.keyword
+    keyword: options.keyword,
+    type: options.type,
+    deptment: options.deptment
   };
 
   return apiSendAsync<m.PageResponse<m.Service[]>>(opts);
@@ -849,6 +873,31 @@ export function DeleteUser(options: {
     url: `/api/User/${options.id}`,
     method: "delete",
     reqName: "DeleteUser"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ *
+ * @param username string string
+ */
+export function GetUserName(options: {
+  username?: string;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/User/getUserName`,
+    method: "get",
+    reqName: "GetUserName"
+  };
+
+  opts.params = {
+    username: options.username
   };
 
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
