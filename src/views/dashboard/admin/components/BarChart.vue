@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="className"
-    :style="{height: height,width: width}"
-  />
+  <div :class="className" :style="{height: height,width: width}" />
 </template>
 
 <script lang="ts">
@@ -49,7 +46,7 @@ export default class BarChart extends mixins(ResizeMixin) {
       },
       xAxis: [{
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        data: ['周一', '周二', '周三', '周四', '周五'],
         axisTick: {
           alignWithLabel: true
         }
@@ -61,21 +58,21 @@ export default class BarChart extends mixins(ResizeMixin) {
         }
       }],
       series: [{
-        name: 'pageA',
+        name: '办理中',
         type: 'bar',
         stack: 'vistors',
         barWidth: '60%',
         data: [79, 52, 200, 334, 390, 330, 220],
         animationDuration
       }, {
-        name: 'pageB',
+        name: '待处理',
         type: 'bar',
         stack: 'vistors',
         barWidth: '60%',
         data: [80, 52, 200, 334, 390, 330, 220],
         animationDuration
       }, {
-        name: 'pageC',
+        name: '已完成',
         type: 'bar',
         stack: 'vistors',
         barWidth: '60%',

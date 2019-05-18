@@ -1,14 +1,20 @@
 <template>
   <el-container>
     <el-main>
-      <h3>用户管理</h3>
-      <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditUser(0)">新增用户</el-button>
+<!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditUser(0)">新增用户</el-button>
+      <el-input v-model="search" size="mini" placeholder="输入关键字搜索" /> -->
+
+      <div class="filter-container">
+        <el-input v-model="search" placeholder="名字" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+
+        <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+        <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="onEditUser(0)">新增</el-button>
+      </div>
       <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
         element-loading-text="正在加载..." border fit highlight-current-row>
-        <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column label="序号" width="55" align="center">
+<el-table-column label="序号" width="55" align="center">
           <template slot-scope="scope">
-            {{ scope.$index }}
+            {{ scope.$index+1 }}
           </template>
         </el-table-column>
         <el-table-column label="名字" align="center" prop="name"></el-table-column>
@@ -19,16 +25,15 @@
         <el-table-column label="电话" align="center" prop="phone"></el-table-column>
         <el-table-column label="角色" align="center" prop="role"></el-table-column>
         <el-table-column label="部门id" align="center" prop="departmentId"></el-table-column>
-        <el-table-column align="center">
+        <el-table-column width="300px" align="center">
           <template slot="header">
-            <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+            操作
           </template>
           <template slot-scope="scope">
-            <el-button-group>
-              <el-button type="primary" size="mini" @click="onEditUser(scope.row.id,1)">编辑</el-button>
-              <el-button type="danger" size="mini" @click="onDeleteAsync(scope.row.id)">删除</el-button>
-            </el-button-group>
-          </template>
+<el-button type="primary" size="mini" @click="onEditUser(scope.row.id,1)">编辑</el-button>
+            <el-button type="danger" size="mini" @click="onDeleteAsync(scope.row.id)">删除</el-button>
+            <el-button type="warning" size="mini" @click="onEditUser(scope.row.id,1)">重置密码</el-button>
+</template>
         </el-table-column>
       </el-table>
       <br>

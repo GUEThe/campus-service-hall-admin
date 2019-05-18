@@ -4,27 +4,24 @@
     <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditDept(0)">新增部门</el-button>
     <el-table v-loading="listLoading" :data="deptTree.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
       element-loading-text="正在加载..." border fit highlight-current-row>
-      <el-table-column type="selection" width="55" align="center"></el-table-column>
-      <el-table-column label="序号" width="55" align="center">
+<el-table-column label="序号" width="55" align="center">
         <template slot-scope="scope">
           {{ scope.$index }}
         </template>
       </el-table-column>
       <el-table-column label="部门名称" align="center" prop="name"></el-table-column>
       <el-table-column label="描述" align="center" prop="description"></el-table-column>
-      <el-table-column label="上级部门id" align="center" prop="parentId"></el-table-column>
-      <el-table-column label="次序" align="center" prop="order"></el-table-column>
+      <!-- <el-table-column label="上级部门id" align="center" prop="parentId"></el-table-column> -->
+      <el-table-column label="显示次序" align="center" prop="order"></el-table-column>
       <el-table-column label="部门电话" align="center" prop="phone"></el-table-column>
       <el-table-column align="center">
         <template slot="header">
           <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
         </template>
         <template slot-scope="scope">
-          <el-button-group>
-            <el-button type="primary" size="mini" @click="onEditDept(scope.row.id,1)">编辑</el-button>
-            <el-button type="danger" size="mini" @click="onDeleteDeptAsync(scope.row.id)">删除</el-button>
-          </el-button-group>
-        </template>
+<el-button type="primary" size="mini" @click="onEditDept(scope.row.id,1)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="onDeleteDeptAsync(scope.row.id)">删除</el-button>
+</template>
       </el-table-column>
     </el-table>
     <DeptDialog :id="editId" :showDialog.sync="showDialog" :type="editType" @refresh="getDeptAsync()" />

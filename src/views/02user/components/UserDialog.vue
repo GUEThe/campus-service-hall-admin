@@ -18,11 +18,13 @@
           <el-input v-model="formData.phone"></el-input>
         </el-form-item>
         <el-form-item label="角色">
-          <el-input v-model="formData.role"></el-input>
+<el-select v-model="formData.role" class="filter-item" placeholder="请选择">
+            <el-option v-for="item in roleOptions" :key="item.key" :label="item.display_name" :value="item.key" />
+          </el-select>
         </el-form-item>
-        <el-form-item label="部门id">
-          <el-input v-model="formData.departmentId"></el-input>
-        </el-form-item>>
+        <el-form-item label="所属部门">
+          <DeptSelect :deptId.sync="formData.departmentId" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button-group>
@@ -38,15 +40,25 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
+import DeptSelect from '@/components/DeptSelect/index.vue';
 
-@Component({})
+@Component({
+  components: {
+    DeptSelect
+  }
+})
 export default class UserDialog extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() type!: number;
   @Prop() id!: number | string;
 
   private dialogTitle: string = '';
-
+  private roleOptions = [
+    { key: 'admin', display_name: 'admin' },
+    { key: 'student', display_name: 'student' },
+    { key: 'teacher', display_name: 'teacher' },
+    { key: 'manager', display_name: 'manager' }
+  ]
   private loading = false;
   private formData: models.User = {
     id: 0,
