@@ -18,9 +18,17 @@
             {{ scope.row.id }}
           </template>
         </el-table-column>
-        <el-table-column label="标题" align="center">
+        <el-table-column label="留言咨询标题" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="showReplayDialog(scope.row)">{{ scope.row.title }}</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="用户名" align="center" prop="name"></el-table-column>
+        <el-table-column label="联系电话" align="center" prop="phone"></el-table-column>
+        <el-table-column label="咨询项目" align="center" prop="serviceName"></el-table-column>
+        <el-table-column label="留言时间" align="center" prop="time" width="150">
+          <template slot-scope="scope">
+            {{ scope.row.time | parseTime }}
           </template>
         </el-table-column>
         <el-table-column label="答复状态" align="center" prop="status" width="150">
@@ -44,7 +52,7 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
 import ReplayDialog from './components/ReplayDialog.vue';
-
+import { parseTime } from '@/utils'
 /** 流程管理 */
 @Component({
   components: {
@@ -53,7 +61,8 @@ import ReplayDialog from './components/ReplayDialog.vue';
   filters: {
     answerFilter(val: number) {
       return val ? '已答复' : '未答复';
-    }
+    },
+    parseTime
   }
 })
 export default class Questions extends Vue {

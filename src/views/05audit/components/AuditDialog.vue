@@ -1,32 +1,33 @@
 <template>
   <div>
-    <el-dialog title="流程详情" :visible="showDialog" @close="$emit('update:showDialog',false)">
+    <el-dialog title="办事流程详情" :visible="showDialog" @close="$emit('update:showDialog',false)">
       <el-form :model="formData" label-width="100px" :disabled="loading" class="demo-table-expand">
+        <el-form-item label="用户名">
+          <span> {{ formData.userName }}</span>
+        </el-form-item>
         <el-form-item label="名称">
           <span> {{ formData.name }}</span>
         </el-form-item>
-        <el-form-item label="事件名">
+        <el-form-item label="办事项目">
           <span> {{ formData.serviceName }}</span>
         </el-form-item>
-        <el-form-item label="描述">
+        <el-form-item label="情况说明">
           <div style="border:1px solid #eee">
             <div v-html="formData.description">
             </div>
           </div>
         </el-form-item>
         <el-form-item label="附件">
-          {{ formData.fileGUID }}
+          {{ formData.fileName }} {{ formData.fileGUID }}
         </el-form-item>
-        <el-form-item label="排列顺序">
-          {{ formData.order }}
-        </el-form-item>
-        <el-form-item label="部门名称">
+
+        <el-form-item label="审核部门">
           {{ formData.departmentName }}
         </el-form-item>
-        <el-form-item label="文件名称">
-          {{ formData.fileName }}
+        <el-form-item label="办理时间">
+          {{ formData.time | parseTime }}
         </el-form-item>
-        <el-form-item label="回执">
+        <el-form-item label="反馈意见">
           <el-input v-model="myFeedBack" type="textarea" :rows="3"></el-input>
         </el-form-item>
       </el-form>
@@ -45,8 +46,10 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
-
-@Component({})
+import { parseTime } from '@/utils'
+@Component({
+  filters: { parseTime }
+})
 export default class UserProcessDialog extends Vue {
   @Prop() showDialog!: boolean;
   @Prop() type!: number;

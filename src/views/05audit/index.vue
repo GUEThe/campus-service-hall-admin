@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-      <h3>流程审核</h3>
+      <h3>办事流程处理</h3>
       <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
         element-loading-text="正在加载..." border fit highlight-current-row>
         <el-table-column label="id" width="55" align="center">
@@ -14,12 +14,19 @@
             <el-button type="text" @click="showAuditDialog(scope.row)">{{ scope.row.name }}</el-button>
           </template>
         </el-table-column>
+        <el-table-column label="用户名" align="center" prop="userName"></el-table-column>
+        <el-table-column label="办事项目" align="center" prop="serviceTitle" width="250"></el-table-column>
+        <el-table-column label="申请时间" align="center" prop="time" width="150">
+          <template slot-scope="scope">
+            {{ scope.row.time | parseTime }}
+          </template>
+        </el-table-column>
         <el-table-column label="状态" align="center" prop="status" width="150">
           <template slot-scope="scope">
             {{ scope.row.status | stateFilter }}
           </template>
         </el-table-column>
-      </el-table>
+</el-table>
       <br>
       <div style="text-align:center">
         <el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
@@ -35,11 +42,15 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
 import AuditDialog from './components/AuditDialog.vue';
-
+import { parseTime } from '@/utils'
 /** 流程管理 */
 @Component({
   components: {
     AuditDialog
+  },
+  filters: {
+
+    parseTime
   }
 })
 export default class UserProcessAudit extends Vue {

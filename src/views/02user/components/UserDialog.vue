@@ -2,7 +2,10 @@
   <div>
     <el-dialog :title="dialogTitle" :visible="showDialog" @close="$emit('update:showDialog',false)">
       <el-form :model="formData" label-width="100px" :disabled="loading">
-        <el-form-item label="用户名">
+        <el-form-item label="用户昵称">
+          <el-input v-model="formData.name"></el-input>
+        </el-form-item>
+        <el-form-item label="登录名">
           <el-input v-model="formData.username"></el-input>
         </el-form-item>
         <el-form-item label="密码">
@@ -18,7 +21,7 @@
           <el-input v-model="formData.phone"></el-input>
         </el-form-item>
         <el-form-item label="角色">
-<el-select v-model="formData.role" class="filter-item" placeholder="请选择">
+          <el-select v-model="formData.role" class="filter-item" placeholder="请选择">
             <el-option v-for="item in roleOptions" :key="item.key" :label="item.display_name" :value="item.key" />
           </el-select>
         </el-form-item>

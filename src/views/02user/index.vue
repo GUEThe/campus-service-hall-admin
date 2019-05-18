@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-<!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditUser(0)">新增用户</el-button>
+      <!-- <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditUser(0)">新增用户</el-button>
       <el-input v-model="search" size="mini" placeholder="输入关键字搜索" /> -->
 
       <div class="filter-container">
@@ -12,15 +12,15 @@
       </div>
       <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
         element-loading-text="正在加载..." border fit highlight-current-row>
-<el-table-column label="序号" width="55" align="center">
+        <el-table-column label="序号" width="55" align="center">
           <template slot-scope="scope">
             {{ scope.$index+1 }}
           </template>
         </el-table-column>
-        <el-table-column label="名字" align="center" prop="name"></el-table-column>
-        <el-table-column label="用户名" align="center" prop="username"></el-table-column>
+        <el-table-column label="用户昵称" align="center" prop="name"></el-table-column>
+        <el-table-column label="登录名" align="center" prop="username"></el-table-column>
         <el-table-column label="密码" align="center" prop="password"></el-table-column>
-        <el-table-column label="学号/学工号" align="center" prop="identify"></el-table-column>
+        <el-table-column label="用户编号" align="center" prop="identify"></el-table-column>
         <el-table-column label="邮箱" align="center" prop="mail"></el-table-column>
         <el-table-column label="电话" align="center" prop="phone"></el-table-column>
         <el-table-column label="角色" align="center" prop="role"></el-table-column>
@@ -30,10 +30,10 @@
             操作
           </template>
           <template slot-scope="scope">
-<el-button type="primary" size="mini" @click="onEditUser(scope.row.id,1)">编辑</el-button>
+            <el-button type="primary" size="mini" @click="onEditUser(scope.row.id,1)">编辑</el-button>
             <el-button type="danger" size="mini" @click="onDeleteAsync(scope.row.id)">删除</el-button>
             <el-button type="warning" size="mini" @click="onEditUser(scope.row.id,1)">重置密码</el-button>
-</template>
+          </template>
         </el-table-column>
       </el-table>
       <br>
