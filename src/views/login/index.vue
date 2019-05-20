@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on"
       label-position="left">
       <div class="title-container">
-        <h3 class="title">王府井大街的蚂蚁开口</h3>
+        <h3 class="title">办事大厅管理后台</h3>
         <lang-select class="set-language" />
       </div>
 
@@ -30,18 +30,19 @@
         {{ $t('login.logIn') }}
       </el-button>
 
-      <div style="position:relative">
+      <!--   <div style="position:relative">
         <div class="tips">
           <span>{{ $t('login.username') }} : admin</span>
           <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
         </div>
-        <div class="tips">
+     <div class="tips">
           <span style="margin-right:18px;">{{ $t('login.username') }} : editor</span>
           <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
         </div>
 
         <el-button class="thirdparty-button" type="primary" @click="showDialog = true">{{ $t('login.thirdparty') }}</el-button>
-      </div>
+
+      </div> -->
     </el-form>
 
     <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
