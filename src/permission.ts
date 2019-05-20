@@ -5,12 +5,13 @@ import { Message } from 'element-ui'
 import { Route } from 'vue-router'
 import { UserModule } from '@/store/modules/user'
 import { PermissionModule } from '@/store/modules/permission'
+import { DeptModule } from '@/store/modules/dept'
 
 NProgress.configure({ showSpinner: false })
 
 const whiteList = ['/login', '/auth-redirect']
 
-router.beforeEach(async(to: Route, _: Route, next: any) => {
+router.beforeEach(async (to: Route, _: Route, next: any) => {
   // Start progress bar
   NProgress.start()
 
@@ -24,6 +25,7 @@ router.beforeEach(async(to: Route, _: Route, next: any) => {
       // Check whether the user has obtained his permission roles
       if (UserModule.roles.length === 0) {
         try {
+          await DeptModule.GetDeptList()
           // Note: roles must be a object array! such as: ['admin'] or ['developer', 'editor']
           await UserModule.GetUserInfo()
           const roles = UserModule.roles

@@ -57,7 +57,7 @@
 </template>
 
 <script  lang="ts">
-import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
+import { Component,Vue,Watch,Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
 import Editor from '@/components/Tinymce/index.vue';
@@ -67,7 +67,7 @@ import { UserModule } from '@/store/modules/user'
 /** 办事详情编辑 */
 @Component({
   components: {
-    Editor, DeptSelect
+    Editor,DeptSelect
   }
 })
 export default class ServiceEdit extends Vue {
@@ -92,17 +92,17 @@ export default class ServiceEdit extends Vue {
   private options = [{
     value: 0,
     label: '学生'
-  }, {
+  },{
     value: 1,
     label: '老师'
-  }, {
+  },{
     value: 2,
     label: '其他'
   }];
   private inputValue = '';
   private rules = {
     title:
-      [{ required: true, message: '请输入标题名称', trigger: 'blur' }]
+      [{ required: true,message: '请输入标题名称',trigger: 'blur' }]
   };
 
   mounted() {
@@ -131,18 +131,18 @@ export default class ServiceEdit extends Vue {
       const { data } = await api.GetService({ id: this.serviceId });
       this.formData = data!;
       this.imageUrl = data!.icon;
-      this.fileList = data!.fileGUID ? [{ name: data!.fileGUID, url: 'http://118.89.50.76:9466' + data!.fileGUID }] : [];
+      this.fileList = data!.fileGUID ? [{ name: data!.fileGUID,url: 'http://118.89.50.76:9466' + data!.fileGUID }] : [];
     }
   }
 
   async onSubmitAsync() {
     (this.$refs.formData as ElForm).validate(async (valid: any) => {
       if (valid) {
-        const { data } = this.serviceId ? await api.PutService({ value: this.formData, id: this.serviceId as any }) : await api.PostService({ value: this.formData });
+        const { data } = this.serviceId ? await api.PutService({ value: this.formData,id: this.serviceId as any }) : await api.PostService({ value: this.formData });
         if (data) {
           this.$message.success('操作成功！');
           if (!this.serviceId) {
-            this.$emit('update:id', data);
+            this.$emit('update:id',data);
             this.$emit('global:add-service');
           }
         }
@@ -155,8 +155,8 @@ export default class ServiceEdit extends Vue {
   }
 
   handleClose(tag: string) {
-    this.formData.tags = this.formData.tags.replace(tag, '');
-    console.log(tag, this.formData.tags);
+    this.formData.tags = this.formData.tags.replace(tag,'');
+    console.log(tag,this.formData.tags);
   }
 
   showInput() {
@@ -175,13 +175,13 @@ export default class ServiceEdit extends Vue {
     this.inputValue = '';
   }
 
-  handleSuccess0(res: any, file: any) {
+  handleSuccess0(res: any,file: any) {
     this.imageUrl = URL.createObjectURL(file.raw);
-    this.formData.icon = 'http://118.89.50.76:9466' + res.data;
-    console.log(res, this.imageUrl, this.formData.icon)
+    console.log(res)
+    this.formData.icon = res.data;
   }
 
-  handleSuccess1(res: any, file: any) {
+  handleSuccess1(res: any,file: any) {
     this.formData.fileGUID = res.data;
   }
 }

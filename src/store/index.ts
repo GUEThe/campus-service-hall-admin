@@ -18,6 +18,7 @@ export interface IRootState {
   permission: IPermissionState
   settings: ISettingsState
   service: ServiceState
+  dept: any
 }
 
 // Declare empty store first, dynamically register all modules later.

@@ -24,7 +24,11 @@
         <el-table-column label="邮箱" align="center" prop="mail"></el-table-column>
         <el-table-column label="电话" align="center" prop="phone"></el-table-column>
         <el-table-column label="角色" align="center" prop="role"></el-table-column>
-        <el-table-column label="部门id" align="center" prop="departmentId"></el-table-column>
+        <el-table-column label="部门" align="center" prop="departmentId">
+          <template slot-scope="scope">
+            <span>{{ scope.row.departmentId|DeptFilter }}</span>
+          </template>
+        </el-table-column>
         <el-table-column width="300px" align="center">
           <template slot="header">
             操作
@@ -51,12 +55,13 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
 import UserDialog from './components/UserDialog.vue';
-
+import { DeptFilter } from '@/filters'
 /** 用户管理 */
 @Component({
   components: {
     UserDialog
-  }
+  },
+  filters: { DeptFilter }
 })
 export default class UsertManaged extends Vue {
   listLoading: boolean = false;
