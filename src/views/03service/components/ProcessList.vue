@@ -6,6 +6,8 @@
     <div class="board-column-content">
       <div v-for="(element,index) in listData" :key="index" class="board-item" @click="handleItemClick(element.id)">
         {{ element.name }}
+        <el-button type="text" icon="el-icon-delete" @click="onDeleteAsync(element.id)">
+        </el-button>
       </div>
       <p v-if="!listData.length">暂无数据，请添加流程</p>
     </div>

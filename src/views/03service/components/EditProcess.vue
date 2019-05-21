@@ -32,7 +32,7 @@
 
         <el-button type="primary" :loading="loading" @click="onSubmitAsync()">{{ id?'保 存':'添 加' }}</el-button>
         <el-button v-if="id" type="primary" :loading="loading" @click="addNewProcess()">添加新流程</el-button>
-        <el-button v-if="id" type="primary" :loading="loading" @click="backToService()">返回编辑事项</el-button>
+        <el-button type="primary" :loading="loading" @click="backToService()">返回编辑事项</el-button>
       </div>
     </el-form>
   </div>

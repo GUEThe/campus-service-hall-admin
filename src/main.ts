@@ -42,7 +42,7 @@ Vue.filter('stateFilter', (state: number) => {
     case 1: {
       return '审核通过'
     }
-    default: return;
+    default: break;
   }
 });
 

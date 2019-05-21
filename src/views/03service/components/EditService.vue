@@ -33,11 +33,12 @@
               <el-input v-if="inputVisible" ref="saveTagInput" v-model="inputValue" size="small" class="input-new-tag"
                 @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
               </el-input>
-              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加新标签</el-button>
             </div>
           </el-form-item>
           <el-form-item label="附件上传">
-            <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1">
+            <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1"
+              :file-list="fileList">
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
           </el-form-item>
@@ -49,7 +50,7 @@
         </el-form-item>
 
         <el-button type="primary" :loading="loading" @click="onSubmitAsync()">{{ id?"保 存":"提 交" }}</el-button>
-        <el-button type="primary" :loading="loading" @click="addProcess()">添加流程</el-button>
+        <el-button v-if="id" type="primary" :loading="loading" @click="addProcess()">添加流程</el-button>
       </div>
     </el-form>
   </div>
@@ -75,6 +76,7 @@ export default class ServiceEdit extends Vue {
   private inputVisible = false;
   private loading = false;
   private imageUrl = '';
+  private fileList: object[] = [];
   private formData: models.Service = {
     id: 0,
     title: '',
@@ -128,6 +130,8 @@ export default class ServiceEdit extends Vue {
     if (this.serviceId) {
       const { data } = await api.GetService({ id: this.serviceId });
       this.formData = data!;
+      this.imageUrl = data!.icon;
+      this.fileList = data!.fileGUID ? [{ name: data!.fileGUID, url: 'http://118.89.50.76:9466' + data!.fileGUID }] : [];
     }
   }
 
@@ -173,7 +177,8 @@ export default class ServiceEdit extends Vue {
 
   handleSuccess0(res: any, file: any) {
     this.imageUrl = URL.createObjectURL(file.raw);
-    this.formData.icon = URL.createObjectURL(file.raw);
+    this.formData.icon = 'http://118.89.50.76:9466' + res.data;
+    console.log(res, this.imageUrl, this.formData.icon)
   }
 
   handleSuccess1(res: any, file: any) {
