@@ -172,6 +172,12 @@ export const asyncRoutes: RouteConfig[] = [
         component: () => import(/* webpackChunkName: "editservice" */ '@/views/03service/ServiceDetail.vue'),
         name: 'Editservice',
         meta: { title: 'editservice', noCache: true, hidden: true }
+      },
+      {
+        path: 'editporcess:id?',
+        component: () => import(/* webpackChunkName: "EditProcess" */ '@/views/03service/components/EditProcess.vue'),
+        name: 'Editprocess',
+        meta: { title: 'editprocess', noCache: true, hidden: true }
       }
     ]
   },

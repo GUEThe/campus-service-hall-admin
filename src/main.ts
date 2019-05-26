@@ -15,7 +15,7 @@ import '@/permission'
 import '@/utils/error-log' // Error log
 import '@/registerServiceWorker'
 import EventProxy from 'vue-event-proxy';
-
+import { DeptFilter } from '@/filters'
 import { mockXHR } from '../mock'
 mockXHR()
 
@@ -45,6 +45,7 @@ Vue.filter('stateFilter', (state: number) => {
     default: break;
   }
 });
+Vue.filter('deptFilter', DeptFilter);
 
 new Vue({
   router,

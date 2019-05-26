@@ -1,16 +1,15 @@
 <template>
-  <div class="board-column">
-    <div class="board-column-header">
-      {{ headerText }}
-    </div>
-    <div class="board-column-content">
-      <div v-for="(element,index) in listData" :key="index" class="board-item" @click="handleItemClick(element.id)">
-        {{ element.name }}
-        <el-button type="text" icon="el-icon-delete" @click="onDeleteAsync(element.id)">
-        </el-button>
-      </div>
-      <p v-if="!listData.length">暂无数据，请添加流程</p>
-    </div>
+  <div>
+    <el-table v-if="serviceId>0" v-loading="listLoading" :data="listData" border fit highlight-current-row>
+      <el-table-column label="次序" align="center" prop="order" width="80"></el-table-column>
+      <el-table-column label="流程名称" align="center" prop="name"></el-table-column>
+      <el-table-column width="300px" align="center" label="操作">
+        <template slot-scope="scope">
+          <el-button type="primary" size="mini" @click="onEditProcess(scope.row.id,1)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="onDeleteAsync(scope.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -51,7 +50,7 @@ export default class ProcesstList extends Vue {
     if (this.serviceId) {
       const { data, total } = await api.GetProcessList({ serviceId: this.serviceId });
       console.log(data);
-      this.listData = data!;
+      this.listData = data!.sort((a: models.ProcessView, b: models.ProcessView) => a.order - b.order);
       this.list = data!.map((e: models.Process) => {
         return e.order;
       });
@@ -81,6 +80,10 @@ export default class ProcesstList extends Vue {
     setTimeout(() => {
       this.$emit('global:get-process', id);
     }, 500);
+  }
+
+  onEditProcess(id: any) {
+    this.$router.push({ name: 'Editprocess', query: { id: id } })
   }
 }
 </script>

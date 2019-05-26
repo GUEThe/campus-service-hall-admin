@@ -2,62 +2,66 @@
   <div class="createPost-container">
     <el-form ref="formData" :model="formData" :rules="rules" class="form-container" label-width="150px">
       <div class="createPost-main-container">
-        <el-form-item prop="title" label="标题">
-          <el-input v-model="formData.title"></el-input>
-        </el-form-item>
-        <div class="postInfo-container">
-          <el-form-item label="类型:">
-            <el-select v-model="formData.type" placeholder="请选择">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
+        <el-row :gutter="24">
+          <el-col :span="10">
+            <el-form-item prop="title" label="标题">
+              <el-input v-model="formData.title"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="部门">
+              <DeptSelect :deptId.sync="formData.department" />
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-          <el-form-item label="部门">
-            <DeptSelect :deptId.sync="formData.department" />
-          </el-form-item>
-
-          <el-form-item label="图标:">
-            <el-upload class="upload-demo" action="v1/api/Files/UploadService/UploadFile" :headers="Header" :limit="1"
-              :show-file-list="false" :on-success="handleSuccess0">
-              <el-button v-if="!imageUrl" size="small" type="primary">点击上传</el-button>
-              <el-image v-if="imageUrl" :src="imageUrl" fit="fill" style="width: 100px; height: 100px"></el-image>
-            </el-upload>
-          </el-form-item>
-
-          <el-form-item label="标签:">
-            <div class="article-textarea">
-              <el-tag v-for="(tag,index) in tagsList" :key="index" :disable-transitions="false" closable @close="handleClose(tag)">
-                {{ tag }}
-              </el-tag>
-              <el-input v-if="inputVisible" ref="saveTagInput" v-model="inputValue" size="small" class="input-new-tag"
-                @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
-              </el-input>
-              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加新标签</el-button>
-            </div>
-          </el-form-item>
-          <el-form-item label="附件上传">
-            <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1"
-              :file-list="fileList">
-              <el-button size="small" type="primary">点击上传</el-button>
-            </el-upload>
-          </el-form-item>
-        </div>
-
-        <el-form-item label="详细内容:"></el-form-item>
-        <el-form-item prop="content" style="height:310px;margin-bottom: 30px;">
-          <Editor :editorContent.sync="formData.description" style="height:200px" />
-        </el-form-item>
-
-        <el-button type="primary" :loading="loading" @click="onSubmitAsync()">{{ id?"保 存":"提 交" }}</el-button>
-        <el-button v-if="id" type="primary" :loading="loading" @click="addProcess()">添加流程</el-button>
+        <el-row :gutter="24">
+          <el-col :span="10">
+            <el-form-item label="图标:">
+              <el-upload class="upload-demo" action="v1/api/Files/UploadService/UploadFile" :headers="Header" :limit="1"
+                :show-file-list="false" :on-success="handleSuccess0">
+                <el-button v-if="!imageUrl" size="small" type="primary">点击上传</el-button>
+                <el-image v-if="imageUrl" :src="imageUrl" fit="fill" style="width: 100px; height: 100px"></el-image>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="标签:">
+              <div class="article-textarea">
+                <el-tag v-for="(tag,index) in tagsList" :key="index" :disable-transitions="false" closable @close="handleClose(tag)">
+                  {{ tag }}
+                </el-tag>
+                <el-input v-if="inputVisible" ref="saveTagInput" v-model="inputValue" size="small" class="input-new-tag"
+                  @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
+                </el-input>
+                <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加新标签</el-button>
+              </div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="附件上传">
+              <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1"
+                :file-list="fileList">
+                <el-button size="small" type="primary">点击上传</el-button>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </div>
+      <el-form-item label="详细内容:"></el-form-item>
+      <el-form-item prop="content" style="height:310px;margin-bottom: 30px;">
+        <Editor :editorContent.sync="formData.description" style="height:200px" />
+      </el-form-item>
+      <el-button type="primary" :loading="loading" @click="onSubmitAsync()">{{ id?"保 存":"提 交" }}</el-button>
+      <el-button v-if="id" type="primary" :loading="loading" @click="addProcess()">添加流程</el-button>
     </el-form>
   </div>
 </template>
 
 <script  lang="ts">
-import { Component,Vue,Watch,Prop } from 'vue-property-decorator';
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
 import Editor from '@/components/Tinymce/index.vue';
@@ -67,7 +71,7 @@ import { UserModule } from '@/store/modules/user'
 /** 办事详情编辑 */
 @Component({
   components: {
-    Editor,DeptSelect
+    Editor, DeptSelect
   }
 })
 export default class ServiceEdit extends Vue {
@@ -89,20 +93,10 @@ export default class ServiceEdit extends Vue {
     tags: '',
     fileGUID: ''
   };
-  private options = [{
-    value: 0,
-    label: '学生'
-  },{
-    value: 1,
-    label: '老师'
-  },{
-    value: 2,
-    label: '其他'
-  }];
   private inputValue = '';
   private rules = {
     title:
-      [{ required: true,message: '请输入标题名称',trigger: 'blur' }]
+      [{ required: true, message: '请输入标题名称', trigger: 'blur' }]
   };
 
   mounted() {
@@ -131,18 +125,18 @@ export default class ServiceEdit extends Vue {
       const { data } = await api.GetService({ id: this.serviceId });
       this.formData = data!;
       this.imageUrl = data!.icon;
-      this.fileList = data!.fileGUID ? [{ name: data!.fileGUID,url: 'http://118.89.50.76:9466' + data!.fileGUID }] : [];
+      this.fileList = data!.fileGUID ? [{ name: data!.fileGUID, url: 'http://118.89.50.76:9466' + data!.fileGUID }] : [];
     }
   }
 
   async onSubmitAsync() {
     (this.$refs.formData as ElForm).validate(async (valid: any) => {
       if (valid) {
-        const { data } = this.serviceId ? await api.PutService({ value: this.formData,id: this.serviceId as any }) : await api.PostService({ value: this.formData });
+        const { data } = this.serviceId ? await api.PutService({ value: this.formData, id: this.serviceId as any }) : await api.PostService({ value: this.formData });
         if (data) {
           this.$message.success('操作成功！');
           if (!this.serviceId) {
-            this.$emit('update:id',data);
+            this.$emit('update:id', data);
             this.$emit('global:add-service');
           }
         }
@@ -151,12 +145,12 @@ export default class ServiceEdit extends Vue {
   }
 
   addProcess() {
-    this.$emit('global:add-process');
+    this.$router.push({ name: 'Editprocess', query: { id: this.id as any } })
   }
 
   handleClose(tag: string) {
-    this.formData.tags = this.formData.tags.replace(tag,'');
-    console.log(tag,this.formData.tags);
+    this.formData.tags = this.formData.tags.replace(tag, '');
+    console.log(tag, this.formData.tags);
   }
 
   showInput() {
@@ -175,19 +169,23 @@ export default class ServiceEdit extends Vue {
     this.inputValue = '';
   }
 
-  handleSuccess0(res: any,file: any) {
+  handleSuccess0(res: any, file: any) {
     this.imageUrl = URL.createObjectURL(file.raw);
     console.log(res)
     this.formData.icon = res.data;
   }
 
-  handleSuccess1(res: any,file: any) {
+  handleSuccess1(res: any, file: any) {
     this.formData.fileGUID = res.data;
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.createPost-container {
+  padding: 5px;
+}
+
 .article-textarea {
   textarea {
     padding-right: 40px;

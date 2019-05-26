@@ -1,20 +1,13 @@
 <template>
   <el-container>
-    <el-aside width="250px">
-      <ProcessList :serviceId="serviceId" />
-    </el-aside>
     <el-container>
-      <el-header>
-        <el-steps :active="step" align-center finish-status="success">
-          <el-step title="编辑事项"></el-step>
-          <el-step title="编辑流程"></el-step>
-        </el-steps>
-      </el-header>
       <el-main>
-        <EditService v-if="step<1" :id.sync="serviceId" />
-        <EditProcess v-if="step===1" />
+        <EditService :id.sync="serviceId" />
       </el-main>
     </el-container>
+    <el-footer>
+      <ProcessList :serviceId="serviceId" />
+    </el-footer>
   </el-container>
 </template>
 

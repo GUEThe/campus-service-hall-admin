@@ -11,12 +11,24 @@
             {{ scope.$index }}
           </template>
         </el-table-column>
-        <el-table-column label="标题" align="center" prop="title"></el-table-column>
-        <el-table-column label="说明" align="center" prop="description"></el-table-column>
-        <el-table-column label="类型" align="center" prop="type"></el-table-column>
-        <el-table-column label="创建者" align="center" prop="creator"></el-table-column>
-        <el-table-column label="图标" align="center" prop="icon"></el-table-column>
-        <el-table-column label="部门" align="center" prop="department"></el-table-column>
+        <el-table-column label="标题" align="center" prop="title">
+          <template slot-scope="scope">
+            <el-button type="text" @click="showProcess(scope.row)">
+              {{ scope.row.title }}
+            </el-button>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column label="类型" align="center" prop="type"></el-table-column> -->
+        <el-table-column label="图标" align="center" prop="icon">
+          <template slot-scope="scope">
+            <el-image :src="scope.row.icon" style="width:100px;height:100px"></el-image>
+          </template>
+        </el-table-column>
+        <el-table-column label="部门" align="center" prop="department">
+          <template slot-scope="scope">
+            {{ scope.row.department | deptFilter }}
+          </template>
+        </el-table-column>
         <el-table-column label="创建时间" align="center" prop="createAt"></el-table-column>
         <el-table-column label="标签" align="center" prop="tags"></el-table-column>
         <el-table-column align="center">
@@ -37,6 +49,7 @@
           align="center" />
       </div>
     </el-main>
+    <ProcessDialog :serviceId="id" :showDialog.sync="showDialog" />
   </el-container>
 </template>
 
@@ -44,15 +57,22 @@
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
+import ProcessDialog from './components/ProcessDialog.vue'
 
 /** 办事列表管理 */
-@Component({})
+@Component({
+  components: {
+    ProcessDialog
+  }
+})
 export default class ServicetManaged extends Vue {
   listLoading: boolean = false;
   listData: models.Service[] = [];
   search = '';
   page = 1;
   total = 0;
+  showDialog = false;
+  id = 0;
   mounted() {
     this.getPayAsync();
   }
@@ -92,6 +112,11 @@ export default class ServicetManaged extends Vue {
     }).catch(() => {
       //
     });
+  }
+
+  showProcess(row: models.Service) {
+    this.showDialog = true;
+    this.id = row.id;
   }
 }
 </script>

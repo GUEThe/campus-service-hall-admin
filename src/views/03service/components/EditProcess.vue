@@ -2,37 +2,45 @@
   <div class="createPost-container">
     <el-form ref="formData" :model="formData" :rules="rules" class="form-container" label-width="150px">
       <div class="createPost-main-container">
-        <el-form-item prop="name" label="名称">
-          <el-input v-model="formData.name"></el-input>
-        </el-form-item>
-        <el-form-item label="类型:">
-          <el-select v-model="formData.type" placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <el-row :gutter="24">
+          <el-col :span="10">
+            <el-form-item prop="name" label="名称">
+              <el-input v-model="formData.name"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="部门">
+              <DeptSelect :deptId.sync="formData.departmentId" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="24">
+          <el-col :span="10">
+            <el-form-item label="次序">
+              <el-input v-model="formData.order" type="number" :min="0"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="附件上传">
+              <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1">
+                <el-button size="small" type="primary">点击上传</el-button>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-        <el-form-item label="部门">
-          <DeptSelect :deptId.sync="formData.departmentId" />
-        </el-form-item>
-
-        <el-form-item label="次序">
-          <el-input v-model="formData.order" type="number"></el-input>
-        </el-form-item>
-        <el-form-item label="附件上传">
-          <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1">
-            <el-button size="small" type="primary">点击上传</el-button>
-          </el-upload>
-        </el-form-item>
         <el-form-item label="详细内容">
         </el-form-item>
         <el-form-item prop="content" style="height:300px;margin-bottom: 30px;">
           <Editor :editorContent.sync="formData.description" />
         </el-form-item>
 
-        <el-button type="primary" :loading="loading" @click="onSubmitAsync()">{{ id?'保 存':'添 加' }}</el-button>
-        <el-button v-if="id" type="primary" :loading="loading" @click="addNewProcess()">添加新流程</el-button>
-        <el-button type="primary" :loading="loading" @click="backToService()">返回编辑事项</el-button>
+        <el-button type="primary" :loading="loading" @click="onSubmitAsync()">
+          {{ id?'保 存':'添 加' }}
+        </el-button>
+        <el-button type="primary" :loading="loading" @click="backToService()">
+          返回编辑事项
+        </el-button>
       </div>
     </el-form>
   </div>
@@ -70,16 +78,6 @@ export default class ProcessEdit extends Vue {
     departmentId: 0,
     time: 0
   };
-  private options = [{
-    value: 0,
-    label: '学生'
-  }, {
-    value: 1,
-    label: '老师'
-  }, {
-    value: 2,
-    label: '其他'
-  }];
   private inputValue = '';
   private rules = {
     name:
@@ -91,6 +89,10 @@ export default class ProcessEdit extends Vue {
       this.id = id;
       this.getProcessAsync(id)
     });
+    this.id = parseInt(this.$route.query.id as string, 10);
+    if (this.id) {
+      this.getProcessAsync(this.id)
+    }
   }
 
   get Header() {
@@ -99,7 +101,7 @@ export default class ProcessEdit extends Vue {
 
   async getProcessAsync(id: number) {
     const { data } = await api.GetProcess({ id });
-    this.formData = data!;
+    this.formData = Object.assign(this.formData, data!);
   }
 
   async onSubmitAsync() {
@@ -136,7 +138,7 @@ export default class ProcessEdit extends Vue {
     };
   }
   backToService() {
-    this.$emit('global:back');
+    this.$router.go(-1);
   }
 }
 </script>

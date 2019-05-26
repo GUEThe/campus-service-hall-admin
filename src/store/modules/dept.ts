@@ -4,18 +4,18 @@ import {
   Action,
   Mutation,
   getModule
-} from "vuex-module-decorators";
-import { GetDepartmentList } from "@/api";
+} from 'vuex-module-decorators';
+import { GetDepartmentList } from '@/api';
 
-import store from "@/store";
-import { Department } from "@/api/models";
+import store from '@/store';
+import * as models from '@/api/models';
 
-@Module({ dynamic: true, store, name: "dept" })
+@Module({ dynamic: true, store, name: 'dept' })
 class Dept extends VuexModule {
-  public dept: Department[] = [];
+  public dept: models.Department[] = [];
 
   @Mutation
-  private SET_DEPT(dept: Department[]) {
+  private SET_DEPT(dept: models.Department[]) {
     this.dept = dept;
   }
 
