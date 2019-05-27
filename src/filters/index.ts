@@ -1,6 +1,6 @@
 // set function parseTime to filter
-export { parseTime } from '@/utils'
 import { DeptModule } from '@/store/modules/dept'
+export { parseTime } from '@/utils'
 
 export function DeptFilter(value: number) {
   const deptList = DeptModule.getDept

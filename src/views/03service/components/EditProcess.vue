@@ -22,7 +22,8 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="附件上传">
-              <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1">
+              <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1"
+                :file-list="fileList" :on-remove="removeFile" :on-preview="showFile">
                 <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
             </el-form-item>
@@ -34,13 +35,18 @@
         <el-form-item prop="content" style="height:300px;margin-bottom: 30px;">
           <Editor :editorContent.sync="formData.description" />
         </el-form-item>
-
-        <el-button type="primary" :loading="loading" @click="onSubmitAsync()">
-          {{ id?'保 存':'添 加' }}
-        </el-button>
-        <el-button type="primary" :loading="loading" @click="backToService()">
-          返回编辑事项
-        </el-button>
+        <el-row>
+          <el-col :span="8" :offset="8" style="text-align:center">
+            <el-button type="primary" :loading="loading" @click="onSubmitAsync()">
+              {{ id?'保 存':'添 加' }}
+            </el-button>
+          </el-col>
+          <el-col :span="8" style="text-align:right">
+            <el-button type="primary" :loading="loading" @click="backToService()">
+              返回编辑事项
+            </el-button>
+          </el-col>
+        </el-row>
       </div>
     </el-form>
   </div>
@@ -62,6 +68,7 @@ import { ServiceModule } from '@/store/modules/service';
   }
 })
 export default class ProcessEdit extends Vue {
+  private fileList: object[] = [];
   private inputVisible = false;
   private loading = false;
   private imageUrl = '';
@@ -90,6 +97,7 @@ export default class ProcessEdit extends Vue {
       this.getProcessAsync(id)
     });
     this.id = parseInt(this.$route.query.id as string, 10);
+    console.log('pidddddd', this.id);
     if (this.id) {
       this.getProcessAsync(this.id)
     }
@@ -102,6 +110,7 @@ export default class ProcessEdit extends Vue {
   async getProcessAsync(id: number) {
     const { data } = await api.GetProcess({ id });
     this.formData = Object.assign(this.formData, data!);
+    this.fileList = data!.fileGUID ? [{ name: data!.fileGUID, url: 'http://118.89.50.76:9466/api/Files/' + data!.fileGUID }] : [];
   }
 
   async onSubmitAsync() {
@@ -140,10 +149,19 @@ export default class ProcessEdit extends Vue {
   backToService() {
     this.$router.go(-1);
   }
+  removeFile() {
+    this.formData.fileGUID = ''
+  }
+  showFile(e: any) {
+    window.open(e.url);
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+.createPost-container {
+  padding: 5px;
+}
 .article-textarea {
   textarea {
     padding-right: 40px;

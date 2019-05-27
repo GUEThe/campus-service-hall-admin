@@ -18,6 +18,9 @@
           <el-step v-for="(item) in listData" :key="item.id" :title="item.name">
             <template slot="description">
               <div v-html="item.description"></div>
+              <el-link v-if="item.fileGUID" :href="'http://118.89.50.76:9466/api/Files/'+item.fileGUID" target="_blank">
+                附件：{{ item.fileName }}
+              </el-link>
             </template>
           </el-step>
         </el-steps>
@@ -55,7 +58,6 @@ export default class UserDialog extends Vue {
 
   @Watch('serviceId')
   onServiceIdChange(val: number) {
-    console.log('fuckyou', val);
     if (val) {
       this.getServiceAsync();
       this.getProcessAsync();

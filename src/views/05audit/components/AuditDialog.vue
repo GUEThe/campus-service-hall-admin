@@ -18,7 +18,9 @@
           </div>
         </el-form-item>
         <el-form-item label="附件">
-          {{ formData.fileName }} {{ formData.fileGUID }}
+          <el-link v-if="formData.fileGUID" :href="'http://118.89.50.76:9466/api/Files/'+formData.fileGUID" target="_blank">
+            {{ formData.fileName }}
+          </el-link>
         </el-form-item>
 
         <el-form-item label="审核部门">

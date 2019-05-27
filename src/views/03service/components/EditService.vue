@@ -43,7 +43,7 @@
           <el-col :span="12">
             <el-form-item label="附件上传">
               <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1"
-                :file-list="fileList">
+                :file-list="fileList" :on-remove="removeFile" :on-preview="showFile">
                 <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
             </el-form-item>
@@ -54,8 +54,14 @@
       <el-form-item prop="content" style="height:310px;margin-bottom: 30px;">
         <Editor :editorContent.sync="formData.description" style="height:200px" />
       </el-form-item>
-      <el-button type="primary" :loading="loading" @click="onSubmitAsync()">{{ id?"保 存":"提 交" }}</el-button>
-      <el-button v-if="id" type="primary" :loading="loading" @click="addProcess()">添加流程</el-button>
+      <el-row>
+        <el-col :span="8" :offset="8" style="text-align:center">
+          <el-button type="primary" :loading="loading" @click="onSubmitAsync()">{{ id?"保 存":"提 交" }}</el-button>
+        </el-col>
+        <el-col :span="8" style="text-align:right">
+          <el-button v-if="id" type="primary" :loading="loading" @click="addProcess()">添加流程</el-button>
+        </el-col>
+      </el-row>
     </el-form>
   </div>
 </template>
@@ -125,7 +131,7 @@ export default class ServiceEdit extends Vue {
       const { data } = await api.GetService({ id: this.serviceId });
       this.formData = data!;
       this.imageUrl = data!.icon;
-      this.fileList = data!.fileGUID ? [{ name: data!.fileGUID, url: 'http://118.89.50.76:9466' + data!.fileGUID }] : [];
+      this.fileList = data!.fileGUID ? [{ name: data!.fileGUID, url: 'http://118.89.50.76:9466/api/Files/' + data!.fileGUID }] : [];
     }
   }
 
@@ -145,7 +151,7 @@ export default class ServiceEdit extends Vue {
   }
 
   addProcess() {
-    this.$router.push({ name: 'Editprocess', query: { id: this.id as any } })
+    this.$router.push({ name: 'Editprocess' })
   }
 
   handleClose(tag: string) {
@@ -177,6 +183,13 @@ export default class ServiceEdit extends Vue {
 
   handleSuccess1(res: any, file: any) {
     this.formData.fileGUID = res.data;
+  }
+
+  removeFile() {
+    this.formData.fileGUID = ''
+  }
+  showFile(e: any) {
+    window.open(e.url);
   }
 }
 </script>

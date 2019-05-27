@@ -26,7 +26,7 @@
             {{ scope.row.status | stateFilter }}
           </template>
         </el-table-column>
-</el-table>
+      </el-table>
       <br>
       <div style="text-align:center">
         <el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="20" :total="total"
