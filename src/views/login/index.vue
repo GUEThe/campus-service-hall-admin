@@ -64,14 +64,6 @@ import { isValidUsername } from '@/utils/validate';
 import LangSelect from '@/components/LangSelect/index.vue';
 import * as models from '@/api/models';
 
-const validateUsername = (rule: any, value: string, callback: any) => {
-  if (!isValidUsername(value)) {
-    callback(new Error('Please enter the correct user name'));
-  } else {
-    callback();
-  }
-};
-
 const validatePassword = (rule: any, value: string, callback: any) => {
   if (value.length < 6) {
     callback(new Error('The password can not be less than 6 digits'));
@@ -91,10 +83,10 @@ export default class Login extends Vue {
     password: '123456'
   };
   private loginRules = {
+    password: [{ required: true, trigger: 'blur', min: 6, message: '密码长度在6位以上' }],
     username: [
-      { required: true, trigger: 'blur', validator: validateUsername }
-    ],
-    password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+      { required: true, trigger: 'blur', message: '请输入用户名' }
+    ]
   };
   private passwordType = 'password';
   private loading = false;
