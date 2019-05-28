@@ -21,7 +21,7 @@
         <!-- <el-table-column label="类型" align="center" prop="type"></el-table-column> -->
         <el-table-column label="图标" align="center" prop="icon">
           <template slot-scope="scope">
-            <el-image :src="scope.row.icon" style="width:100px;height:100px"></el-image>
+            <el-image :src="'/v1/'+scope.row.icon" style="width:100px;height:100px"></el-image>
           </template>
         </el-table-column>
         <el-table-column label="部门" align="center" prop="department">

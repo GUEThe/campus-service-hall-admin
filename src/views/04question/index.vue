@@ -8,9 +8,12 @@
           <el-option :value="0" label="未回复"></el-option>
           <el-option :value="1" label="已回复"></el-option>
         </el-select>
+        &nbsp;
         <el-input v-model="search" placeholder="标题" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+        &nbsp;
         <el-button class="filter-item" type="primary" icon="el-icon-search" @click="getQuestionAsync(1,search)">搜索</el-button>
       </div>
+      <br>
       <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
         element-loading-text="正在加载..." border fit highlight-current-row>
         <el-table-column label="id" width="55" align="center">
