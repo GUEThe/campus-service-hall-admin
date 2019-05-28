@@ -47,28 +47,37 @@ export const constantRoutes: RouteConfig[] = [
     children: [
       {
         path: '/redirect/:path*',
-        component: () => import(/* webpackChunkName: "redirect" */ '@/views/redirect/index.vue')
+        component: () =>
+          import(
+            /* webpackChunkName: "redirect" */ '@/views/redirect/index.vue'
+          )
       }
     ]
   },
   {
     path: '/login',
-    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
+    component: () =>
+      import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
     meta: { hidden: true }
   },
   {
     path: '/auth-redirect',
-    component: () => import(/* webpackChunkName: "authRedirect" */ '@/views/login/auth-redirect.vue'),
+    component: () =>
+      import(
+        /* webpackChunkName: "authRedirect" */ '@/views/login/auth-redirect.vue'
+      ),
     meta: { hidden: true }
   },
   {
     path: '/404',
-    component: () => import(/* webpackChunkName: "404" */ '@/views/error-page/404.vue'),
+    component: () =>
+      import(/* webpackChunkName: "404" */ '@/views/error-page/404.vue'),
     meta: { hidden: true }
   },
   {
     path: '/401',
-    component: () => import(/* webpackChunkName: "401" */ '@/views/error-page/401.vue'),
+    component: () =>
+      import(/* webpackChunkName: "401" */ '@/views/error-page/401.vue'),
     meta: { hidden: true }
   },
   {
@@ -78,9 +87,17 @@ export const constantRoutes: RouteConfig[] = [
     children: [
       {
         path: 'dashboard',
-        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'
+          ),
         name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
+        meta: {
+          title: 'dashboard',
+          icon: 'dashboard',
+          noCache: true,
+          affix: true
+        }
       }
     ]
   }
@@ -89,7 +106,7 @@ export const constantRoutes: RouteConfig[] = [
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
-*/
+ */
 export const asyncRoutes: RouteConfig[] = [
   // {
   //   path: '/permission',
@@ -134,24 +151,40 @@ export const asyncRoutes: RouteConfig[] = [
   {
     path: '/deptmanaged',
     component: Layout,
+    meta: { roles: ['admin'] },
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "Deptmanaged" */ '@/views/01dept/index.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "Deptmanaged" */ '@/views/01dept/index.vue'
+          ),
         name: 'Deptmanaged',
-        meta: { title: 'deptmanaged', icon: 'tree', noCache: true }
+        meta: {
+          title: 'deptmanaged',
+          icon: 'tree',
+          noCache: true
+        }
       }
     ]
   },
   {
     path: '/usermanaged',
     component: Layout,
+    meta: { roles: ['admin'] },
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "usermanaged" */ '@/views/02user/index.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "usermanaged" */ '@/views/02user/index.vue'
+          ),
         name: 'Usermanaged',
-        meta: { title: 'usermanaged', icon: 'peoples', noCache: true }
+        meta: {
+          title: 'usermanaged',
+          icon: 'peoples',
+          noCache: true
+        }
       }
     ]
   },
@@ -163,19 +196,28 @@ export const asyncRoutes: RouteConfig[] = [
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "03service" */ '@/views/03service/index.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "03service" */ '@/views/03service/index.vue'
+          ),
         name: 'Service',
         meta: { title: 'serviceList', icon: 'example', noCache: true }
       },
       {
         path: 'editservice:id?',
-        component: () => import(/* webpackChunkName: "editservice" */ '@/views/03service/ServiceDetail.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "editservice" */ '@/views/03service/ServiceDetail.vue'
+          ),
         name: 'Editservice',
         meta: { title: 'editservice', noCache: true, hidden: true }
       },
       {
         path: 'editporcess:id?',
-        component: () => import(/* webpackChunkName: "EditProcess" */ '@/views/03service/components/EditProcess.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "EditProcess" */ '@/views/03service/components/EditProcess.vue'
+          ),
         name: 'Editprocess',
         meta: { title: 'editprocess', noCache: true, hidden: true }
       }
@@ -187,7 +229,8 @@ export const asyncRoutes: RouteConfig[] = [
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "audit" */ '@/views/05audit/index.vue'),
+        component: () =>
+          import(/* webpackChunkName: "audit" */ '@/views/05audit/index.vue'),
         name: 'audit',
         meta: { title: 'audit', icon: 'edit', noCache: true }
       }
@@ -199,7 +242,10 @@ export const asyncRoutes: RouteConfig[] = [
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "question" */ '@/views/04question/index.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "question" */ '@/views/04question/index.vue'
+          ),
         name: 'question',
         meta: { title: 'question', icon: 'wechat', noCache: true }
       }
@@ -320,25 +366,26 @@ export const asyncRoutes: RouteConfig[] = [
   }
 ]
 
-const createRouter = () => new Router({
-  // mode: 'history',  // Disabled due to Github Pages doesn't support this, enable this if you need.
-  scrollBehavior: (to, from, savedPosition) => {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { x: 0, y: 0 }
-    }
-  },
-  base: process.env.BASE_URL,
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new Router({
+    // mode: 'history',  // Disabled due to Github Pages doesn't support this, enable this if you need.
+    scrollBehavior: (to, from, savedPosition) => {
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        return { x: 0, y: 0 }
+      }
+    },
+    base: process.env.BASE_URL,
+    routes: constantRoutes
+  })
 
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
-  const newRouter = createRouter();
-  (router as any).matcher = (newRouter as any).matcher // reset router
+  const newRouter = createRouter()
+  ;(router as any).matcher = (newRouter as any).matcher // reset router
 }
 
 export default router
