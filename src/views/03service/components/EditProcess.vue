@@ -121,7 +121,7 @@ export default class ProcessEdit extends Vue {
         const { data } = this.id ? await api.PutProcess({ value: this.formData, id: this.id as any }) : await api.PostProcess({ value: this.formData });
         if (data) {
           this.$message.success('操作成功！');
-          this.$emit('global:updateList');
+          this.$router.push({ name: 'Editservice', query: { id: this.formData.serviceId as any } })
         }
       }
     });

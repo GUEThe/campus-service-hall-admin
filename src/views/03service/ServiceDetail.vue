@@ -3,11 +3,10 @@
     <el-container>
       <el-main>
         <EditService :id.sync="serviceId" />
+        <br>
+        <ProcessList :serviceId="serviceId" />
       </el-main>
     </el-container>
-    <el-footer>
-      <ProcessList :serviceId="serviceId" />
-    </el-footer>
   </el-container>
 </template>
 
@@ -39,7 +38,6 @@ export default class ServicetDetail extends Vue {
     this.serviceId = parseInt(this.$route.query.id as string, 10);
     ServiceModule.SetServiceId(this.serviceId);
     console.log(this.serviceId, ServiceModule.id);
-    this.$on('global:add-service', () => { this.step = 1 });
     this.$on('global:add-process', () => { this.step = 1 });
     this.$on('global:back', () => { this.step = 0 });
   }

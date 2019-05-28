@@ -39,13 +39,22 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
+        <el-row :gutter="24">
+          <el-col :span="10">
             <el-form-item label="附件上传">
               <el-upload class="upload-demo" action="v1/api/Files/UploadFile" :headers="Header" multiple :on-success="handleSuccess1"
                 :file-list="fileList" :on-remove="removeFile" :on-preview="showFile">
                 <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="业务类型">
+              <el-select v-model="formData.type">
+                <el-option :value="1" label="学生业务"></el-option>
+                <el-option :value="2" label="教师业务"></el-option>
+                <el-option :value="3" label="一般业务"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -73,7 +82,8 @@ import * as models from '@/api/models';
 import Editor from '@/components/Tinymce/index.vue';
 import DeptSelect from '@/components/DeptSelect/index.vue';
 import { ElForm } from 'element-ui/types/form';
-import { UserModule } from '@/store/modules/user'
+import { UserModule } from '@/store/modules/user';
+import { ServiceModule } from '@/store/modules/service';
 /** 办事详情编辑 */
 @Component({
   components: {
@@ -91,7 +101,7 @@ export default class ServiceEdit extends Vue {
     id: 0,
     title: '',
     description: '',
-    type: 0,
+    type: 1,
     creator: 0,
     icon: '',
     department: 0,
@@ -143,7 +153,7 @@ export default class ServiceEdit extends Vue {
           this.$message.success('操作成功！');
           if (!this.serviceId) {
             this.$emit('update:id', data);
-            this.$emit('global:add-service');
+            ServiceModule.SetServiceId(data as any);
           }
         }
       }
