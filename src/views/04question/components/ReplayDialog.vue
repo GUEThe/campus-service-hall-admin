@@ -85,11 +85,12 @@ export default class QuestionDialog extends Vue {
     }
   }
   async replayAsync(type: number) {
-    this.$emit('update:showDialog', false);
+    this.formData.status = 1;
     const { data } = await api.PutQuestion({ id: this.formData.id, value: this.formData });
     if (data) {
       this.$message.success('操作成功');
-      this.$emit('reflash')
+      this.$emit('reflash');
+      this.$emit('update:showDialog', false);
     }
   }
 }
