@@ -224,6 +224,25 @@ export const asyncRoutes: RouteConfig[] = [
     ]
   },
   {
+    path: '/userService',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () =>
+          import(
+            /* webpackChunkName: "usermanaged" */ '@/views/06userService/index.vue'
+          ),
+        name: 'userServiceList',
+        meta: {
+          title: 'userServiceList',
+          icon: 'peoples',
+          noCache: true
+        }
+      }
+    ]
+  },
+  {
     path: '/audit',
     component: Layout,
     children: [
