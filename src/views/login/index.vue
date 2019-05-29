@@ -129,7 +129,7 @@ export default class Login extends Vue {
             this.$router.push({ path: this.redirect || '/' });
           })
           .catch(() => {
-            this.loading = true;
+            this.loading = false;
           });
       } else {
         return false;
