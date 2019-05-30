@@ -24,6 +24,7 @@
     "fuse.js": "^3.4.4",
     "js-cookie": "^2.2.0",
     "mockjs": "^1.0.1-beta3",
+    "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "nunjucks": "^3.2.0",

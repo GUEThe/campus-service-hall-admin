@@ -17,6 +17,7 @@ import '@/registerServiceWorker'
 import EventProxy from 'vue-event-proxy'
 import { DeptFilter } from '@/filters'
 import { mockXHR } from '../mock'
+import moment from 'moment'
 mockXHR()
 
 Vue.use(ElementUI, {
@@ -81,6 +82,12 @@ Vue.filter('serviceTypeFilter', (type: number) => {
     default:
       break
   }
+})
+Vue.filter('TimeFilter', (value: any) => {
+  if (!value) {
+    return ''
+  }
+  return moment(value - 8 * 3600 * 1000).format('YYYY-MM-DD HH:mm')
 })
 Vue.filter('deptFilter', DeptFilter)
 
