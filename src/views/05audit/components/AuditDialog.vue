@@ -9,7 +9,7 @@
           <span> {{ formData.name }}</span>
         </el-form-item>
         <el-form-item label="办事项目">
-          <span> {{ formData.serviceName }}</span>
+          <span> {{ formData.serviceTitle }}</span>
         </el-form-item>
         <el-form-item label="情况说明">
           <div style="border:1px solid #eee">
@@ -17,9 +17,9 @@
             </div>
           </div>
         </el-form-item>
-        <el-form-item label="附件">
-          <el-link v-if="formData.fileGUID" :href="'http://118.89.50.76:9466/api/Files/'+formData.fileGUID" target="_blank">
-            {{ formData.fileName }}
+        <el-form-item v-if="formData.userFileGUID" label="附件">
+          <el-link :href="'http://118.89.50.76:9466/api/Files/'+formData.userFileGUID" target="_blank">
+            点击下载
           </el-link>
         </el-form-item>
 
@@ -61,21 +61,7 @@ export default class UserProcessDialog extends Vue {
   private dialogTitle: string = '';
   private myFeedBack: string = '';
   private loading = false;
-  private formData: models.ProcessView = {
-    id: 0,
-    name: '',
-    serviceId: 0,
-    serviceName: '',
-    description: '',
-    fileGUID: '',
-    order: 0,
-    type: 0,
-    creator: 0,
-    time: 0,
-    departmentId: 0,
-    departmentName: '',
-    fileName: ''
-  }
+  private formData: models.UserProcessView | null = null;
 
   mounted() {
     //
@@ -87,22 +73,6 @@ export default class UserProcessDialog extends Vue {
       this.myFeedBack = this.feedback;
       const { data } = await api.GetUserProcessView({ id: this.id });
       this.formData = data!;
-    } else {
-      this.formData = {
-        id: 0,
-        name: '',
-        serviceId: 0,
-        serviceName: '',
-        description: '',
-        fileGUID: '',
-        order: 0,
-        type: 0,
-        creator: 0,
-        time: 0,
-        departmentId: 0,
-        departmentName: '',
-        fileName: ''
-      }
     }
   }
   audit(type: number) {

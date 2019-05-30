@@ -28,7 +28,7 @@ export const wssBaseUrl = `wss://${apiHost}${basePath}/ws`;
 */
 
 /**
- *
+ * 登陆获取token
  * @param signinForm m.SigninForm
  */
 export function Signin(options: {
@@ -50,7 +50,7 @@ export function Signin(options: {
 */
 
 /**
- *
+ * 退出登录
  */
 export function Logout(): Promise<m.DataResponse<m.RestfulData>> {
   const opts: ApiRequestOptions = {
@@ -68,7 +68,7 @@ export function Logout(): Promise<m.DataResponse<m.RestfulData>> {
 */
 
 /**
- *
+ * 获取用户信息
  */
 export function GetUserInfo(): Promise<m.DataResponse<m.UserInfo>> {
   const opts: ApiRequestOptions = {
@@ -195,7 +195,7 @@ export function DeleteDepartment(options: {
 */
 
 /**
- *
+ * 下载文件
  * @param guid string string
  */
 export function GetFile(options: {
@@ -205,6 +205,29 @@ export function GetFile(options: {
     url: `/api/Files/${options.guid}`,
     method: "get",
     reqName: "GetFile"
+  };
+
+  return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
+}
+/*
+    export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
+      data?: m.RestfulData;
+    }
+*/
+
+/**
+ * 用户上传流程文件
+ * @param processId number integer
+ * @param file file file
+ */
+export function UserProcessUploadFile(options: {
+  processId: number;
+  file?: file;
+}): Promise<m.DataResponse<m.RestfulData>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Files/UserProcess/UploadFile/${options.processId}`,
+    method: "post",
+    reqName: "UserProcessUploadFile"
   };
 
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
@@ -368,11 +391,11 @@ export function DeleteProcess(options: {
 */
 
 /**
- *
- * @param page number integer
- * @param pageSize number integer
- * @param name string string
- * @param status number integer
+ * 咨询问题列表(管理员返回全部，部门人员返回该部门的信息)
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ * @param name string string 用户名
+ * @param status number integer 回复状态（0未回复，1已回复,2全部）
  */
 export function GetQuestionList(options: {
   page?: number;
@@ -465,16 +488,49 @@ export function GetDepartmentQuestionList(options: {
 */
 
 /**
+ *
+ * @param page number integer
+ * @param pageSize number integer
+ */
+export function GetMyQuestionList(options: {
+  page?: number;
+  pageSize?: number;
+}): Promise<m.PageResponse<m.QuestionView[]>> {
+  const opts: ApiRequestOptions = {
+    url: `/api/Question/my`,
+    method: "get",
+    reqName: "GetMyQuestionList"
+  };
+
+  options.pageSize = options.pageSize || defaultPageSize;
+
+  opts.params = {
+    page: options.page,
+    pageSize: options.pageSize
+  };
+
+  return apiSendAsync<m.PageResponse<m.QuestionView[]>>(opts);
+}
+/*
+    export interface m.PageResponse&lt;m.QuestionView[]&gt; extends m.RestfulData{
+      data?: m.QuestionView[];
+      total: number;
+      page: number;
+      pageSize: number;
+    }
+*/
+
+/**
  * 办事事项咨询问题列表
  * @param page number integer 页码
  * @param pageSize number integer 每页数量
- * @param ServiceId number integer 事项ID
- * @param status number integer 问题回复状态，1代表已回复，0代表未回复
+ * @param serviceId number integer 事项ID
+ * @param status number integer 问题回复状态，1代表已回复，0代表未回复,2全部
  */
 export function GetServiceQuestionList(options: {
   page?: number;
   pageSize?: number;
-  ServiceId?: number;
+  serviceId?: number;
   status?: number;
 }): Promise<m.PageResponse<m.QuestionView[]>> {
   const opts: ApiRequestOptions = {
@@ -488,7 +544,7 @@ export function GetServiceQuestionList(options: {
   opts.params = {
     page: options.page,
     pageSize: options.pageSize,
-    ServiceId: options.ServiceId,
+    serviceId: options.serviceId,
     status: options.status
   };
 
@@ -570,7 +626,7 @@ export function DeleteQuestion(options: {
 */
 
 /**
- * 办事列表
+ * 办事列表（管理员返回全部，部门工作人员返回本部门信息）
  * @param page number integer 页码
  * @param pageSize number integer 每页数量
  */
@@ -625,12 +681,12 @@ export function PostService(options: {
 */
 
 /**
- *
+ * 搜索办事列表
  * @param page number integer
  * @param pageSize number integer
- * @param keyword string string
- * @param type number integer
- * @param deptment number integer
+ * @param keyword string string 名称关键字
+ * @param type number integer 0所有业务，1学生业务，2教师业务，3一般业务
+ * @param deptment number integer 0所有部门，部门id
  */
 export function GetSearchServiceList(options: {
   page?: number;
@@ -818,8 +874,8 @@ export function PostUser(options: {
 */
 
 /**
- *
- * @param id number integer
+ * 获取用户信息
+ * @param id number integer 为用户id，0时获取当前登录用户信息
  */
 export function GetUser(options: {
   id: number;
@@ -884,7 +940,7 @@ export function DeleteUser(options: {
 */
 
 /**
- *
+ * 检测用户名是否已存在
  * @param username string string
  */
 export function GetUserName(options: {
@@ -940,10 +996,10 @@ export function GetUserProcessList(options: {
 */
 
 /**
- *
- * @param page number integer
- * @param pageSize number integer
- * @param name string string
+ * 用户服务流程列表
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ * @param name string string 流程名称
  */
 export function GetUserProcessViewList(options: {
   page?: number;
@@ -967,25 +1023,25 @@ export function GetUserProcessViewList(options: {
   return apiSendAsync<m.PageResponse<m.UserProcessView[]>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.ProcessView&gt; extends m.RestfulData{
-      data?: m.ProcessView;
+    export interface m.DataResponse&lt;m.UserProcessView&gt; extends m.RestfulData{
+      data?: m.UserProcessView;
     }
 */
 
 /**
- *
+ * 用户办事流程
  * @param id number integer
  */
 export function GetUserProcessView(options: {
   id: number;
-}): Promise<m.DataResponse<m.ProcessView>> {
+}): Promise<m.DataResponse<m.UserProcessView>> {
   const opts: ApiRequestOptions = {
     url: `/api/UserProcess/${options.id}`,
     method: "get",
     reqName: "GetUserProcessView"
   };
 
-  return apiSendAsync<m.DataResponse<m.ProcessView>>(opts);
+  return apiSendAsync<m.DataResponse<m.UserProcessView>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{
@@ -1021,15 +1077,17 @@ export function PutUserProcess(options: {
 */
 
 /**
- *
- * @param page number integer
- * @param pageSize number integer
- * @param name string string
+ * 用户服务申请列表（管理员返回全部，部门工作人员返回本部门信息）
+ * @param page number integer 页码
+ * @param pageSize number integer 每页数量
+ * @param name string string 姓名
+ * @param status number integer 状态（1代表完成，不传返回全部）
  */
 export function GetUserServiceList(options: {
   page?: number;
   pageSize?: number;
   name?: string;
+  status?: number;
 }): Promise<m.PageResponse<m.UserServiceView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/UserService`,
@@ -1042,7 +1100,8 @@ export function GetUserServiceList(options: {
   opts.params = {
     page: options.page,
     pageSize: options.pageSize,
-    name: options.name
+    name: options.name,
+    status: options.status
   };
 
   return apiSendAsync<m.PageResponse<m.UserServiceView[]>>(opts);
@@ -1054,7 +1113,7 @@ export function GetUserServiceList(options: {
 */
 
 /**
- *
+ * 用户申请办事
  * @param value m.UserService
  */
 export function PostUserService(options: {
@@ -1070,8 +1129,8 @@ export function PostUserService(options: {
   return apiSendAsync<m.DataResponse<m.RestfulData>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.UserService[]&gt; extends m.RestfulData{
-      data?: m.UserService[];
+    export interface m.PageResponse&lt;m.UserServiceView[]&gt; extends m.RestfulData{
+      data?: m.UserServiceView[];
       total: number;
       page: number;
       pageSize: number;
@@ -1086,7 +1145,7 @@ export function PostUserService(options: {
 export function GetMyServiceList(options: {
   page?: number;
   pageSize?: number;
-}): Promise<m.PageResponse<m.UserService[]>> {
+}): Promise<m.PageResponse<m.UserServiceView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/UserService/my`,
     method: "get",
@@ -1100,7 +1159,7 @@ export function GetMyServiceList(options: {
     pageSize: options.pageSize
   };
 
-  return apiSendAsync<m.PageResponse<m.UserService[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.UserServiceView[]>>(opts);
 }
 /*
     export interface m.PageResponse&lt;m.UserServiceView[]&gt; extends m.RestfulData{
@@ -1136,8 +1195,8 @@ export function GetDepartmentUserServiceList(options: {
   return apiSendAsync<m.PageResponse<m.UserServiceView[]>>(opts);
 }
 /*
-    export interface m.PageResponse&lt;m.UserService[]&gt; extends m.RestfulData{
-      data?: m.UserService[];
+    export interface m.PageResponse&lt;m.UserServiceView[]&gt; extends m.RestfulData{
+      data?: m.UserServiceView[];
       total: number;
       page: number;
       pageSize: number;
@@ -1145,14 +1204,14 @@ export function GetDepartmentUserServiceList(options: {
 */
 
 /**
- *
+ * 单位办事连接查询列表
  * @param page number integer
  * @param pageSize number integer
  */
 export function GetUserServiceViewList(options: {
   page?: number;
   pageSize?: number;
-}): Promise<m.PageResponse<m.UserService[]>> {
+}): Promise<m.PageResponse<m.UserServiceView[]>> {
   const opts: ApiRequestOptions = {
     url: `/api/UserService/ViewData`,
     method: "get",
@@ -1166,28 +1225,28 @@ export function GetUserServiceViewList(options: {
     pageSize: options.pageSize
   };
 
-  return apiSendAsync<m.PageResponse<m.UserService[]>>(opts);
+  return apiSendAsync<m.PageResponse<m.UserServiceView[]>>(opts);
 }
 /*
-    export interface m.DataResponse&lt;m.UserService&gt; extends m.RestfulData{
-      data?: m.UserService;
+    export interface m.DataResponse&lt;m.UserServiceView&gt; extends m.RestfulData{
+      data?: m.UserServiceView;
     }
 */
 
 /**
- * 单位办事连接查询列表
+ * 获取用户办事事项
  * @param id number integer
  */
-export function GetUserService(options: {
+export function GetUserServiceView(options: {
   id: number;
-}): Promise<m.DataResponse<m.UserService>> {
+}): Promise<m.DataResponse<m.UserServiceView>> {
   const opts: ApiRequestOptions = {
     url: `/api/UserService/${options.id}`,
     method: "get",
-    reqName: "GetUserService"
+    reqName: "GetUserServiceView"
   };
 
-  return apiSendAsync<m.DataResponse<m.UserService>>(opts);
+  return apiSendAsync<m.DataResponse<m.UserServiceView>>(opts);
 }
 /*
     export interface m.DataResponse&lt;m.RestfulData&gt; extends m.RestfulData{

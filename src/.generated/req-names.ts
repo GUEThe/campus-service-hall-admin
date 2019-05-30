@@ -13,6 +13,7 @@ export const enum ReqNames {
   PutDepartment = "PutDepartment",
   DeleteDepartment = "DeleteDepartment",
   GetFile = "GetFile",
+  UserProcessUploadFile = "UserProcessUploadFile",
   GetProcessList = "GetProcessList",
   PostProcess = "PostProcess",
   GetDepartmentProcessList = "GetDepartmentProcessList",
@@ -22,6 +23,7 @@ export const enum ReqNames {
   GetQuestionList = "GetQuestionList",
   PostQuestion = "PostQuestion",
   GetDepartmentQuestionList = "GetDepartmentQuestionList",
+  GetMyQuestionList = "GetMyQuestionList",
   GetServiceQuestionList = "GetServiceQuestionList",
   GetQuestion = "GetQuestion",
   PutQuestion = "PutQuestion",
@@ -48,7 +50,7 @@ export const enum ReqNames {
   GetMyServiceList = "GetMyServiceList",
   GetDepartmentUserServiceList = "GetDepartmentUserServiceList",
   GetUserServiceViewList = "GetUserServiceViewList",
-  GetUserService = "GetUserService",
+  GetUserServiceView = "GetUserServiceView",
   PutUserService = "PutUserService",
   DeleteUserServic = "DeleteUserServic"
 }
