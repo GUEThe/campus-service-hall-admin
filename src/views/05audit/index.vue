@@ -23,7 +23,7 @@
         </el-table-column>
         <el-table-column label="状态" align="center" prop="status" width="150">
           <template slot-scope="scope">
-            {{ scope.row.status | stateFilter }}
+            {{ scope.row.status | auditStateFilter }}
           </template>
         </el-table-column>
       </el-table>
@@ -51,13 +51,22 @@ import Moment from 'moment'
   filters: {
     filterTime(val: number) {
       return Moment(val).utcOffset(0).format('YYYY-MM-DD HH:mm');
+    },
+    auditStateFilter(val: number) {
+      enum state {
+        '待办理' = -1,
+        '办理中' = 0,
+        '办理成功',
+        '办理失败'
+      }
+      return state[val];
     }
   }
 })
 export default class UserProcessAudit extends Vue {
   listLoading: boolean = false;
   listData: models.UserProcessView[] = [];
-  editData: any = {};
+  editData: models.UserProcessView = {} as models.UserProcessView;
   search = '';
   editId = 0;
   userId = 0;
@@ -91,12 +100,24 @@ export default class UserProcessAudit extends Vue {
   async auditProcessAsync(audit: number) {
     this.editData.status = audit;
     this.editData.feedback = this.feedback;
-    const { data } = await api.PutUserProcess({ id: this.editData.id, value: this.editData });
+    const userprocess: models.UserProcess = {
+      id: this.editData.id,
+      userId: this.editData.userId,
+      userServiceId: this.editData.userServiceId,
+      processId: this.editData.processId,
+      status: this.editData.status,
+      operator: this.editData.operator,
+      time: this.editData.time,
+      fileGUID: this.editData.userFileGUID,
+      departmentId: this.editData.departmentId,
+      feedback: this.editData.feedback
+    }
+    const { data } = await api.PutUserProcess({ id: this.editData.id, value: userprocess });
     if (data) {
       this.$message.success('操作成功');
     }
   }
-  showAuditDialog(row: any) {
+  showAuditDialog(row: models.UserProcessView) {
     this.showDialog = true;
     this.editId = row.id;
     this.feedback = row.feedback;

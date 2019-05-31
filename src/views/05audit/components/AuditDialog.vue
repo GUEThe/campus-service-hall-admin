@@ -27,7 +27,7 @@
           {{ formData.departmentName }}
         </el-form-item>
         <el-form-item label="办理时间">
-          {{ formData.time | parseTime }}
+          {{ formData.time | TimeFilter }}
         </el-form-item>
         <el-form-item label="反馈意见">
           <el-input v-model="myFeedBack" type="textarea" :rows="3"></el-input>
@@ -37,7 +37,7 @@
         <el-button-group>
           <el-button type="button" icon="el-icon-close" @click="$emit('update:showDialog',false)">取消</el-button>
           <el-button type="primary" @click="audit(1)">审核通过</el-button>
-          <el-button type="danger" @click="audit(0)">审核不通过</el-button>
+          <el-button type="danger" @click="audit(2)">审核不通过</el-button>
         </el-button-group>
       </div>
     </el-dialog>
