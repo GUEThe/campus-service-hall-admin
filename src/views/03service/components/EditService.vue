@@ -18,7 +18,7 @@
         <el-row :gutter="24">
           <el-col :span="10">
             <el-form-item label="图标:">
-              <el-upload class="upload-demo" action="v1/api/Files/UploadService/UploadFile" :headers="Header" :limit="1"
+              <el-upload class="upload-demo" action="v1/api/Files/UploadService/UploadFile" :headers="Header"
                 :show-file-list="false" :on-success="handleSuccess0">
                 <el-button v-if="!imageUrl" size="small" type="primary">点击上传</el-button>
                 <el-image v-if="imageUrl" :src="'/v1/'+imageUrl" fit="fill" style="width: 100px; height: 100px"></el-image>
