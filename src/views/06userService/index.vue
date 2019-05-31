@@ -30,7 +30,7 @@
         </el-table-column>
         <el-table-column label="申请时间" align="center" prop="time" width="150">
           <template slot-scope="scope">
-            {{ scope.row.time | parseTime }}
+            {{ scope.row.time | filterTime }}
           </template>
         </el-table-column>
         <!-- <el-table-column label="当前流程" align="center" prop="currentProcess"></el-table-column> -->
@@ -62,14 +62,16 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
 // import AuditDialog from './components/AuditDialog.vue';
-import { parseTime } from '@/utils'
+import Moment from 'moment'
 
 @Component({
   components: {
     // AuditDialog
   },
   filters: {
-    parseTime
+    filterTime(val: number) {
+      return Moment(val).utcOffset(0).format('YYYY-MM-DD HH:mm');
+    }
   }
 })
 export default class UserService extends Vue {

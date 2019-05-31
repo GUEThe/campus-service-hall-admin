@@ -18,7 +18,7 @@
         <el-table-column label="办事项目" align="center" prop="serviceTitle" width="250"></el-table-column>
         <el-table-column label="申请时间" align="center" prop="time" width="150">
           <template slot-scope="scope">
-            {{ scope.row.time | parseTime }}
+            {{ scope.row.time | filterTime }}
           </template>
         </el-table-column>
         <el-table-column label="状态" align="center" prop="status" width="150">
@@ -42,15 +42,16 @@ import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import * as api from '@/api';
 import * as models from '@/api/models';
 import AuditDialog from './components/AuditDialog.vue';
-import { parseTime } from '@/utils'
+import Moment from 'moment'
 /** 流程管理 */
 @Component({
   components: {
     AuditDialog
   },
   filters: {
-
-    parseTime
+    filterTime(val: number) {
+      return Moment(val).utcOffset(0).format('YYYY-MM-DD HH:mm');
+    }
   }
 })
 export default class UserProcessAudit extends Vue {
@@ -59,8 +60,10 @@ export default class UserProcessAudit extends Vue {
   editData: any = {};
   search = '';
   editId = 0;
+  userId = 0;
   feedback = '';
   showDialog = false;
+  showProcessDialog = false;
   page = 1;
   total = 0;
   sortable = '';
@@ -98,6 +101,10 @@ export default class UserProcessAudit extends Vue {
     this.editId = row.id;
     this.feedback = row.feedback;
     this.editData = row;
+  }
+  showUserProcessDialog(row: any) {
+    this.showProcessDialog = true;
+    this.userId = row.id;
   }
 }
 </script>
