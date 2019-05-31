@@ -14,6 +14,7 @@ export default {
     usermanaged: '用户管理',
     service: '事项管理',
     serviceList: '事项列表',
+    userServiceList: '用户办事列表',
     createservice: '添加事项',
     editservice: '事项编辑',
     process: '流程管理',
