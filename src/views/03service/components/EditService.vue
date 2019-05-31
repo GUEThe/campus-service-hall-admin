@@ -186,7 +186,7 @@ export default class ServiceEdit extends Vue {
   }
 
   handleSuccess0(res: any, file: any) {
-    this.imageUrl = URL.createObjectURL(file.raw);
+    this.imageUrl = res.data;
     console.log(res)
     this.formData.icon = res.data;
   }
