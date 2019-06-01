@@ -18,12 +18,12 @@
         <el-table-column label="办事项目" align="center" prop="serviceTitle" width="250"></el-table-column>
         <el-table-column label="申请时间" align="center" prop="time" width="150">
           <template slot-scope="scope">
-            {{ scope.row.time | filterTime }}
+            {{ scope.row.time | TimeFilter }}
           </template>
         </el-table-column>
         <el-table-column label="状态" align="center" prop="status" width="150">
           <template slot-scope="scope">
-            {{ scope.row.status | auditStateFilter }}
+            {{ scope.row.status | stateFilter }}
           </template>
         </el-table-column>
       </el-table>
@@ -47,21 +47,21 @@ import Moment from 'moment'
 @Component({
   components: {
     AuditDialog
-  },
-  filters: {
-    filterTime(val: number) {
-      return Moment(val).utcOffset(0).format('YYYY-MM-DD HH:mm');
-    },
-    auditStateFilter(val: number) {
-      enum state {
-        '待办理' = -1,
-        '办理中' = 0,
-        '办理成功',
-        '办理失败'
-      }
-      return state[val];
-    }
   }
+  // filters: {
+  //   filterTime(val: number) {
+  //     return Moment(val).utcOffset(0).format('YYYY-MM-DD HH:mm');
+  //   },
+  //   auditStateFilter(val: number) {
+  //     enum state {
+  //       '待办理' = -1,
+  //       '办理中' = 0,
+  //       '办理成功'=1,
+  //       ''=0
+  //     }
+  //     return state[val];
+  //   }
+  // }
 })
 export default class UserProcessAudit extends Vue {
   listLoading: boolean = false;

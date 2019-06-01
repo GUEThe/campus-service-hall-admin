@@ -37,7 +37,7 @@
         <el-button-group>
           <el-button type="button" icon="el-icon-close" @click="$emit('update:showDialog',false)">取消</el-button>
           <el-button type="primary" @click="audit(1)">审核通过</el-button>
-          <el-button type="danger" @click="audit(2)">审核不通过</el-button>
+          <el-button type="danger" @click="audit(0)">审核不通过</el-button>
         </el-button-group>
       </div>
     </el-dialog>
