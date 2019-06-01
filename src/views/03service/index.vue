@@ -5,10 +5,9 @@
       <el-button type="primary" icon="el-icon-plus" size="mini" @click="onEditService('',false)">新增办事列表</el-button>
       <el-table v-loading="listLoading" :data="listData.filter(data => !search || data.title.toLowerCase().includes(search.toLowerCase()))"
         element-loading-text="正在加载..." border fit highlight-current-row>
-        <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column label="序号" width="55" align="center">
+<el-table-column label="序号" width="55" align="center">
           <template slot-scope="scope">
-            {{ scope.$index }}
+            {{ scope.$index+1 }}
           </template>
         </el-table-column>
         <el-table-column label="标题" align="center" prop="title">
@@ -29,7 +28,7 @@
             {{ scope.row.department | deptFilter }}
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" align="center" prop="createAt"></el-table-column>
+        <!-- <el-table-column label="创建时间" align="center" prop="createAt"></el-table-column> -->
         <el-table-column label="标签" align="center" prop="tags"></el-table-column>
         <el-table-column align="center">
           <template slot="header">
